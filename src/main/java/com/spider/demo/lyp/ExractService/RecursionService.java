@@ -15,8 +15,7 @@ import com.spider.demo.lyp.Rule.Rule;
 import com.spider.demo.lyp.RuleException.RuleException;
 import com.spider.demo.lyp.Util.TextUtil;
 
-public class ExtractService {
-	
+public class RecursionService {
 
 	public List<LinkTypeData> extract(Rule rule) {
 		
@@ -77,17 +76,17 @@ public class ExtractService {
 			
 			for(Element result:results){
 				
-				Elements links = result.getElementsByTag("meta");
+				Elements links = result.getElementsByTag("a");
 				if(links!=null)
 				for(Element link :links){
 					// 将href统一处理成小写
 					String linkhref = link.attr("href");
-					String linkcontent = link.attr("content");
+					
 					String linktext = link.text();
+					
 					//获取解析后的href和text
 					LinkTypeData data = new LinkTypeData();
 					data.setHref(linkhref);
-					data.setContent(linkcontent);
 					data.setText(linktext);
 					list.add(data);
 				}
@@ -113,5 +112,4 @@ public class ExtractService {
 			}
 		}
 	}
-
 }

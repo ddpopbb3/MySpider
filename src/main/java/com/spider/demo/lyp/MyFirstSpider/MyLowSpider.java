@@ -20,30 +20,35 @@ public class MyLowSpider {
 		ExtractService extractService=new ExtractService();
 		List<LinkTypeData> list = new ArrayList<LinkTypeData>();
 		list = extractService.extract(rule);
+		
+		
 		for(LinkTypeData li:list){
 			System.out.println(li.getText().toString());
 		}
 	}*/
 	@Test
 	public void forthetest2(){
-		//Rule rule = new Rule(new String[]{},new String[]{},"http://www.chinanews.com/","ptv",Rule.CLASS,Rule.GET);
 		//Rule rule = new Rule(new String[]{},new String[]{},"http://www.wh.sdu.edu.cn/index.do","xnxw",Rule.ID,Rule.GET);
 		//Rule rule = new Rule(new String[]{},new String[]{},"http://www.ie.wh.sdu.edu.cn/","body_bg",Rule.CLASS,Rule.GET);
-		//Rule rule = new Rule(new String[]{},new String[]{},"http://xsgzc.wh.sdu.edu.cn/read?id=5553","view_content",Rule.CLASS,Rule.GET);
-		Rule rule = new Rule(new String[]{},new String[]{},"http://xsgzc.wh.sdu.edu.cn/list.action?class_id=7","list_table",Rule.CLASS,Rule.GET);
+		
+		//SELECTION的方式比较类似Jquery，具体用法参考官方文档 http://www.open-open.com/jsoup/selector-syntax.htm
+		Rule rule = new Rule(new String[]{},new String[]{},"http://www.eunchina.com/","[name=description]",Rule.SELECTION,Rule.GET);
 		
 		ExtractService extractService=new ExtractService();
 		List<LinkTypeData> list = new ArrayList<LinkTypeData>();
 		list = extractService.extract(rule);
-		FileTxt fileTxt = new FileTxt();
 		
-		
+		for(LinkTypeData li:list){
+			System.out.println(li.getContent().toString());
+		}
+
+		/* 将取到的内容写入文件
+		 * FileTxt fileTxt = new FileTxt();
 		File file = new File("G:\\FeigeDownload\\"+time+".txt");
-		
 		for(LinkTypeData li:list){
 			fileTxt.FileWritterUtil(file,li.getText()+"\r\n");
 			System.out.println("ok!");
-		}
+		}*/
 	}
 	
 }
