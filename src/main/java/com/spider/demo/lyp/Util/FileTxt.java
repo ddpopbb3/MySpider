@@ -1,8 +1,6 @@
 package com.spider.demo.lyp.Util;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -18,7 +16,6 @@ public class FileTxt {
 				fileWritter.close();
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

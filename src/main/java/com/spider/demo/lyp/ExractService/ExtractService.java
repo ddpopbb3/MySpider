@@ -45,7 +45,7 @@ public class ExtractService {
 				}
 			}
 			
-			Document document = null;
+			Document document;
 			
 			//根据请求类型进行解析
 			switch(resultType){
@@ -55,6 +55,8 @@ public class ExtractService {
 			case Rule.POST:
 				document = connection.timeout(100000).post();
 				break;
+			default :
+				document = connection.timeout(100000).get();
 			}
 			
 			Elements results = new Elements();
@@ -93,7 +95,6 @@ public class ExtractService {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
