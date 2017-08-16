@@ -1,0 +1,2922 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>  
+            <link rel="canonical" href="http://blog.csdn.net/huangwenyi1010/article/details/75577091"/> 
+
+   
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>Java之IO,BIO,NIO,AIO知多少？ - 阿毅
+        - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="开心一笑【一女人：“我真不放心丈夫，他准备到湖中心水最深的地方把猫扔掉。”邻居：“那有什么不放心的？”女人：“猫已回家一钟头了！”】提出问题Java之IO,BIO,NIO,AIO知多少？？？解决问题前言本篇文章参考了网上很多大神的文章，包括一些代码实例。在文章最后都有写明出处。如果文章有写错的地方，欢迎留下评论。本篇文章是我录制视频《Java之IO,BIO,NIO,AIO知多少？》的讲课稿子。下面是" />
+
+    <meta name="keywords" content="java,nio,视频" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/skin-blue/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/huangwenyi1010/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+     
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/huangwenyi1010">阿毅</a></h2>
+            <h3>###自信点，悲伤给谁看......</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/huangwenyi1010?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/huangwenyi1010?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/huangwenyi1010/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "huangwenyi1010";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/huangwenyi1010";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/epubit17/article/details/76811996">
+<font color=red><strong>赠书 | 异步2周年,技术图书免费选</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/broadview2006/article/details/77053543">
+<font color=blue><strong>每周荐书：分布式、深度学习算法、iOS（评论送书）</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://gitee.com/enterprises?csdn-sq">
+<font color=red><strong>项目管理+代码托管+文档协作，开发更流畅</strong></font></a>
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Java%e4%b9%8bIO%2cBIO%2cNIO%2cAIO%e7%9f%a5%e5%a4%9a%e5%b0%91%ef%bc%9f&u=http://blog.csdn.net/huangwenyi1010/article/details/75577091"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="/huangwenyi1010/article/details/75577091">
+        Java之IO,BIO,NIO,AIO知多少？        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/java' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">java</a><a href='http://www.csdn.net/tag/nio' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">nio</a><a href='http://www.csdn.net/tag/%e8%a7%86%e9%a2%91' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">视频</a><a href='http://www.csdn.net/tag/%e5%ae%9e%e4%be%8b' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">实例</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2017-07-20 22:48</span>
+            <span class="link_view" title="阅读次数">3164人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(12)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Java%e4%b9%8bIO%2cBIO%2cNIO%2cAIO%e7%9f%a5%e5%a4%9a%e5%b0%91%ef%bc%9f','75577091');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(75577091,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('6106306','huangwenyi1010','top','75577091');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">一步一步学Java<em>（40）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/huangwenyi1010/article/category/6106306"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_6106306">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：我已委托“维权骑士”（rightknights.com）为我的文章进行维权行动</p>
+        </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+        <div class="markdown_views"><h3 id="开心一笑"><strong>开心一笑</strong></h3>
+
+<p>【一女人：“我真不放心丈夫，他准备到湖中心水最深的地方把猫扔掉。”邻居：“那有什么不放心的？”女人：“猫已回家一钟头了！”】</p>
+
+<hr>
+
+<div align="center"><img width="500" height="350" src="http://img.blog.csdn.net/20170720223021981?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></div>
+
+<hr>
+
+
+
+<h3 id="提出问题"><strong>提出问题</strong></h3>
+
+<p>Java之IO,BIO,NIO,AIO知多少？？？</p>
+
+<hr>
+
+
+
+<h3 id="解决问题"><strong>解决问题</strong></h3>
+
+
+
+<h3 id="前言"><strong>前言</strong></h3>
+
+<p>本篇文章参考了网上很多大神的文章，包括一些代码实例。在文章最后都有写明出处。如果文章有写错的地方，欢迎留下评论。本篇文章是我录制视频《Java之IO,BIO,NIO,AIO知多少？》的讲课稿子。下面是视频地址，欢迎购买观看：</p>
+
+<p><a href="http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=994" target="_blank">http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=994</a></p>
+
+
+
+<h4 id="io基础知识回顾"><strong>IO基础知识回顾</strong></h4>
+
+<p>java的核心库java.io提供了全面的IO接口。包括：文件读写、标准设备输出等。Java中IO是以流为基础进行输入输出的，所有数据被串行化写入输出流，或者从输入流读入。</p>
+
+<p>java.nio（java non-blocking IO），nio 是non-blocking的简称，是jdk1.4 及以上版本里提供的新api（New IO） ，为所有的原始类型（boolean类型除外）提供<a href="http://baike.baidu.com/item/%E7%BC%93%E5%AD%98" target="_blank">缓存</a>支持。Sun 官方标榜的特性如下： 为所有的原始类型提供(Buffer)<a href="http://baike.baidu.com/item/%E7%BC%93%E5%AD%98" target="_blank">缓存</a>支持。<a href="http://baike.baidu.com/item/%E5%AD%97%E7%AC%A6%E9%9B%86" target="_blank">字符集</a>编码解码解决方案。 Channel ：一个新的原始I/O 抽象。 支持锁和<a href="http://baike.baidu.com/item/%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6" target="_blank">内存映射文件</a>的文件访问接口。 提供多路(non-bloking) 非阻塞式的高伸缩性网络I/O 。</p>
+
+
+
+<h6 id="io流类图结构"><strong>IO流类图结构</strong></h6>
+
+<p><img src="http://img.blog.csdn.net/20170720201445162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+<h6 id="io流简单例子">IO流简单例子</h6>
+
+<p>实例一：        </p>
+
+<pre><code>FileInputStream fis=null;
+FileOutputStream fos=null;
+try {
+    fis = new FileInputStream(new File("D:\\a.txt"));
+    fos = new FileOutputStream(new File("D:\\y.txt"));
+    int ch;
+    while((ch=fis.read()) != -1){
+        System.out.println((char)ch);
+        fos.write(ch);
+    }
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+} catch (IOException e) {
+    e.printStackTrace();
+}finally {
+    if(null != fos){
+        fos.close();
+    }
+    if(null != fis){
+        fis.close();
+    }
+}
+</code></pre>
+
+<p><img src="http://img.blog.csdn.net/20170720201520684?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+<p>实例二：字节流转换成字符流</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(String[] args) throws Exception{
+        BufferedReader br = <span class="hljs-keyword">null</span>;
+        BufferedWriter bw = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> {
+            br = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(<span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">"D:\\a.txt"</span>)));
+            bw = <span class="hljs-keyword">new</span> BufferedWriter(<span class="hljs-keyword">new</span> OutputStreamWriter(<span class="hljs-keyword">new</span> FileOutputStream(<span class="hljs-string">"D:\\y.txt"</span>)));
+            String s;
+            StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();
+            <span class="hljs-keyword">while</span>((s=br.readLine())!=<span class="hljs-keyword">null</span>){
+                System.<span class="hljs-keyword">out</span>.println(s);
+                bw.write(s);
+            }
+        } <span class="hljs-keyword">catch</span> (FileNotFoundException e) {
+            e.printStackTrace();
+        } <span class="hljs-keyword">catch</span> (IOException e) {
+            e.printStackTrace();
+        }<span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">null</span> != bw){
+                bw.close();
+            }
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">null</span> != br){
+                br.close();
+            }
+        }
+    }</code></pre>
+
+<p>实例三：用转换流从控制台上读入数据</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(String[] args) throws Exception{
+        BufferedReader br = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> {
+            br = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(System.<span class="hljs-keyword">in</span>));
+            String s=br.readLine();
+            System.<span class="hljs-keyword">out</span>.println(s);
+        } <span class="hljs-keyword">catch</span> (IOException e) {
+            e.printStackTrace();
+        }<span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">null</span> != br){
+                br.close();
+            }
+        }
+    }</code></pre>
+
+
+
+<h4 id="bio编程">BIO编程</h4>
+
+
+
+<h5 id="传统bio通信模型图"><strong>传统BIO通信模型图</strong></h5>
+
+<p>​    传统的同步阻塞模型开发中，ServerSocket负责绑定IP地址，启动监听端口；Socket负责发起连接操作。连接成功后，双方通过输入和输出流进行<strong>同步阻塞式</strong>通信。 服务端提供IP和监听端口，客户端通过连接操作想服务端监听的地址发起连接请求，通过三次握手连接，如果连接成功建立，双方就可以通过套接字进行通信。</p>
+
+<p>​    简单的描述一下BIO的服务端通信模型：采用BIO通信模型的服务端，通常由一个独立的Acceptor线程负责监听客户端的连接，它接收到客户端连接请求之后为每个客户端创建一个新的线程进行链路处理没处理完成后，通过输出流返回应答给客户端，线程销毁。即典型的一请求一应答通宵模型。</p>
+
+<p>​    传统BIO通信模型图：</p>
+
+<p>​    <img src="http://blog.anxpp.com/usr/uploads/2016/05/549520916.png" alt="01" title=""></p>
+
+<p>​    该模型最大的问题就是缺乏弹性伸缩能力，当客户端并发访问量增加后，<strong>服务端的线程个数和客户端并发访问数呈1:1的正比关系</strong>，<a href="http://lib.csdn.net/base/java" target="_blank">Java</a>中的线程也是比较宝贵的系统资源，线程数量快速膨胀后，系统的性能将急剧下降，随着访问量的继续增大，系统最终就<strong>死-掉-了</strong>。</p>
+
+
+
+<h5 id="传统bio编程实例"><strong>传统BIO编程实例</strong></h5>
+
+<p>传统的同步阻塞模型开发中，ServerSocket负责绑定IP地址，启动监听端口；Socket负责发起连接操作。连接成功后，双方通过输入和输出流进行同步阻塞式通信。</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs java"><span class="hljs-keyword">package</span> com.evada.de;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.net.ServerSocket;
+<span class="hljs-keyword">import</span> java.net.Socket;
+<span class="hljs-keyword">import</span> java.util.Random;
+
+<span class="hljs-javadoc">/**
+ * 描述：传统BIO编程实例
+ *<span class="hljs-javadoctag"> @author</span> Ay
+ *<span class="hljs-javadoctag"> @date</span> 2017/6/27
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AyTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseTest</span> {</span>
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(String[] args) <span class="hljs-keyword">throws</span> InterruptedException {
+        <span class="hljs-comment">//启动线程，运行服务器</span>
+        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span>() {
+                <span class="hljs-keyword">try</span> {
+                    ServerBetter.start();
+                } <span class="hljs-keyword">catch</span> (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        <span class="hljs-comment">//避免客户端先于服务器启动前执行代码</span>
+        Thread.sleep(<span class="hljs-number">100</span>);
+
+        <span class="hljs-comment">//启动线程，运行客户端</span>
+        <span class="hljs-keyword">char</span> operators[] = {<span class="hljs-string">'+'</span>, <span class="hljs-string">'-'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'/'</span>};
+        Random random = <span class="hljs-keyword">new</span> Random(System.currentTimeMillis());
+        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
+            <span class="hljs-annotation">@SuppressWarnings</span>(<span class="hljs-string">"static-access"</span>)
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span>() {
+                <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {
+                    <span class="hljs-comment">//随机产生算术表达式</span>
+                    String expression = random.nextInt(<span class="hljs-number">10</span>) + <span class="hljs-string">""</span> + operators[random.nextInt(<span class="hljs-number">4</span>)] + (random.nextInt(<span class="hljs-number">10</span>) + <span class="hljs-number">1</span>);
+                    Client.send(expression);
+                    <span class="hljs-keyword">try</span> {
+                        Thread.currentThread().sleep(random.nextInt(<span class="hljs-number">1000</span>));
+                    } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+}
+
+class ServerBetter{
+
+    <span class="hljs-comment">//默认的端口号</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> DEFAULT_PORT = <span class="hljs-number">12345</span>;
+    <span class="hljs-comment">//单例的ServerSocket</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ServerSocket server;
+
+    <span class="hljs-comment">//根据传入参数设置监听端口，如果没有参数调用以下方法并使用默认值</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span>() <span class="hljs-keyword">throws</span> IOException {
+        <span class="hljs-comment">//使用默认值端口</span>
+        start(DEFAULT_PORT);
+    }
+    <span class="hljs-comment">//这个方法不会被大量并发访问，不太需要考虑效率，直接进行方法同步就行了</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span>(<span class="hljs-keyword">int</span> port) <span class="hljs-keyword">throws</span> IOException{
+        <span class="hljs-keyword">if</span>(server != <span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">try</span>{
+            <span class="hljs-comment">//通过构造函数创建ServerSocket，如果端口合法且空闲，服务端就监听成功</span>
+            server = <span class="hljs-keyword">new</span> ServerSocket(port);
+            System.out.println(<span class="hljs-string">"服务器已启动，端口号："</span> + port);
+            <span class="hljs-comment">//通过无线循环监听客户端连接，如果没有客户端接入，将阻塞在accept操作上。</span>
+            <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>){
+                Socket socket = server.accept();
+                <span class="hljs-comment">//当有新的客户端接入时，会执行下面的代码</span>
+                <span class="hljs-comment">//然后创建一个新的线程处理这条Socket链路</span>
+                <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> ServerHandler(socket)).start();
+            }
+        }<span class="hljs-keyword">finally</span>{
+            <span class="hljs-comment">//一些必要的清理工作</span>
+            <span class="hljs-keyword">if</span>(server != <span class="hljs-keyword">null</span>){
+                System.out.println(<span class="hljs-string">"服务器已关闭。"</span>);
+                server.close();
+                server = <span class="hljs-keyword">null</span>;
+            }
+        }
+    }
+
+}
+
+
+class ServerHandler implements Runnable{
+    <span class="hljs-keyword">private</span> Socket socket;
+    <span class="hljs-keyword">public</span> <span class="hljs-title">ServerHandler</span>(Socket socket) {
+        <span class="hljs-keyword">this</span>.socket = socket;
+    }
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span>() {
+        BufferedReader in = <span class="hljs-keyword">null</span>;
+        PrintWriter out = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span>{
+            in = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(socket.getInputStream()));
+            out = <span class="hljs-keyword">new</span> PrintWriter(socket.getOutputStream(),<span class="hljs-keyword">true</span>);
+            String expression;
+            String result;
+            <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>){
+                <span class="hljs-comment">//通过BufferedReader读取一行</span>
+                <span class="hljs-comment">//如果已经读到输入流尾部，返回null,退出循环</span>
+                <span class="hljs-comment">//如果得到非空值，就尝试计算结果并返回</span>
+                <span class="hljs-keyword">if</span>((expression = in.readLine())==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">break</span>;
+                System.out.println(<span class="hljs-string">"服务器收到消息："</span> + expression);
+                <span class="hljs-keyword">try</span>{
+                    result = <span class="hljs-string">"123"</span>;<span class="hljs-comment">//Calculator.cal(expression).toString();</span>
+                }<span class="hljs-keyword">catch</span>(Exception e){
+                    result = <span class="hljs-string">"计算错误："</span> + e.getMessage();
+                }
+                out.println(result);
+            }
+        }<span class="hljs-keyword">catch</span>(Exception e){
+            e.printStackTrace();
+        }<span class="hljs-keyword">finally</span>{
+            <span class="hljs-comment">//一些必要的清理工作</span>
+            <span class="hljs-keyword">if</span>(in != <span class="hljs-keyword">null</span>){
+                <span class="hljs-keyword">try</span> {
+                    in.close();
+                } <span class="hljs-keyword">catch</span> (IOException e) {
+                    e.printStackTrace();
+                }
+                in = <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span>(out != <span class="hljs-keyword">null</span>){
+                out.close();
+                out = <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span>(socket != <span class="hljs-keyword">null</span>){
+                <span class="hljs-keyword">try</span> {
+                    socket.close();
+                } <span class="hljs-keyword">catch</span> (IOException e) {
+                    e.printStackTrace();
+                }
+                socket = <span class="hljs-keyword">null</span>;
+            }
+        }
+    }
+}
+
+class Client {
+    <span class="hljs-comment">//默认的端口号</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> DEFAULT_SERVER_PORT = <span class="hljs-number">12345</span>;
+    <span class="hljs-comment">//默认服务器Ip</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String DEFAULT_SERVER_IP = <span class="hljs-string">"127.0.0.1"</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">send</span>(String expression){
+        send(DEFAULT_SERVER_PORT,expression);
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">send</span>(<span class="hljs-keyword">int</span> port,String expression){
+        System.out.println(<span class="hljs-string">"算术表达式为："</span> + expression);
+        Socket socket = <span class="hljs-keyword">null</span>;
+        BufferedReader in = <span class="hljs-keyword">null</span>;
+        PrintWriter out = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span>{
+            socket = <span class="hljs-keyword">new</span> Socket(DEFAULT_SERVER_IP,port);
+            in = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(socket.getInputStream()));
+            out = <span class="hljs-keyword">new</span> PrintWriter(socket.getOutputStream(),<span class="hljs-keyword">true</span>);
+            out.println(expression);
+            System.out.println(<span class="hljs-string">"___结果为："</span> + in.readLine());
+        }<span class="hljs-keyword">catch</span>(Exception e){
+            e.printStackTrace();
+        }<span class="hljs-keyword">finally</span>{
+            <span class="hljs-comment">//一下必要的清理工作</span>
+            <span class="hljs-keyword">if</span>(in != <span class="hljs-keyword">null</span>){
+                <span class="hljs-keyword">try</span> {
+                    in.close();
+                } <span class="hljs-keyword">catch</span> (IOException e) {
+                    e.printStackTrace();
+                }
+                in = <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span>(out != <span class="hljs-keyword">null</span>){
+                out.close();
+                out = <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span>(socket != <span class="hljs-keyword">null</span>){
+                <span class="hljs-keyword">try</span> {
+                    socket.close();
+                } <span class="hljs-keyword">catch</span> (IOException e) {
+                    e.printStackTrace();
+                }
+                socket = <span class="hljs-keyword">null</span>;
+            }
+        }
+    }
+}</code></pre>
+
+
+
+<h4 id="伪异步io编程"><strong>伪异步I/O编程</strong></h4>
+
+<p>我们可以使用线程池来管理这些线程（需要了解更多请参考前面提供的文章），实现1个或多个线程处理N个客户端的模型（<strong>但是底层还是使用的同步阻塞I/O</strong>），通常被称为“伪异步I/O模型“</p>
+
+
+
+<h5 id="伪异步io编程模型图">伪异步I/O编程模型图</h5>
+
+<p><img src="http://img.blog.csdn.net/20170720221817648?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+<p>测试运行结果是一样的。</p>
+
+<p>​    我们知道，如果使用CachedThreadPool线程池（不限制线程数量，如果不清楚请参考文首提供的文章），其实除了能自动帮我们管理线程（复用），看起来也就像是1:1的客户端：线程数模型，而使用<strong>FixedThreadPool</strong>我们就有效的控制了线程的最大数量，保证了系统有限的资源的控制，实现了N:M的伪异步I/O模型。</p>
+
+<p>​    但是，正因为限制了线程数量，如果发生大量并发请求，超过最大数量的线程就只能等待，直到线程池中的有空闲的线程可以被复用。而对Socket的输入流就行读取时，会一直阻塞，直到发生：</p>
+
+<ul>
+<li>​    有数据可读</li>
+<li>​    可用数据以及读取完毕</li>
+<li>​    发生空指针或I/O异常</li>
+</ul>
+
+<p>​    所以在读取数据较慢时（比如数据量大、网络传输慢等），大量并发的情况下，其他接入的消息，只能一直等待，这就是最大的弊端。</p>
+
+<p>​    而后面即将介绍的NIO，就能解决这个难题。</p>
+
+
+
+<h5 id="伪异步io编程代码"><strong>伪异步IO编程代码</strong></h5>
+
+
+
+<pre class="prettyprint"><code class=" hljs java"><span class="hljs-keyword">package</span> com.anxpp.io.calculator.bio;  
+<span class="hljs-keyword">import</span> java.io.IOException;  
+<span class="hljs-keyword">import</span> java.net.ServerSocket;  
+<span class="hljs-keyword">import</span> java.net.Socket;  
+<span class="hljs-keyword">import</span> java.util.concurrent.ExecutorService;  
+<span class="hljs-keyword">import</span> java.util.concurrent.Executors;  
+<span class="hljs-javadoc">/** 
+ * BIO服务端源码__伪异步I/O 
+ *<span class="hljs-javadoctag"> @author</span> yangtao__anxpp.com 
+ *<span class="hljs-javadoctag"> @version</span> 1.0 
+ */</span>  
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServerBetter</span> {</span>  
+    <span class="hljs-comment">//默认的端口号  </span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> DEFAULT_PORT = <span class="hljs-number">12345</span>;  
+    <span class="hljs-comment">//单例的ServerSocket  </span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ServerSocket server;  
+    <span class="hljs-comment">//线程池 懒汉式的单例  </span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ExecutorService executorService = Executors.newFixedThreadPool(<span class="hljs-number">60</span>);  
+    <span class="hljs-comment">//根据传入参数设置监听端口，如果没有参数调用以下方法并使用默认值  </span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span>() <span class="hljs-keyword">throws</span> IOException{  
+        <span class="hljs-comment">//使用默认值  </span>
+        start(DEFAULT_PORT);  
+    }  
+    <span class="hljs-comment">//这个方法不会被大量并发访问，不太需要考虑效率，直接进行方法同步就行了  </span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span>(<span class="hljs-keyword">int</span> port) <span class="hljs-keyword">throws</span> IOException{  
+        <span class="hljs-keyword">if</span>(server != <span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;  
+        <span class="hljs-keyword">try</span>{  
+            <span class="hljs-comment">//通过构造函数创建ServerSocket  </span>
+            <span class="hljs-comment">//如果端口合法且空闲，服务端就监听成功  </span>
+            server = <span class="hljs-keyword">new</span> ServerSocket(port);  
+            System.out.println(<span class="hljs-string">"服务器已启动，端口号："</span> + port);  
+            <span class="hljs-comment">//通过无线循环监听客户端连接  </span>
+            <span class="hljs-comment">//如果没有客户端接入，将阻塞在accept操作上。  </span>
+            <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>){  
+                Socket socket = server.accept();  
+                <span class="hljs-comment">//当有新的客户端接入时，会执行下面的代码  </span>
+                <span class="hljs-comment">//然后创建一个新的线程处理这条Socket链路  </span>
+                executorService.execute(<span class="hljs-keyword">new</span> ServerHandler(socket));  
+            }  
+        }<span class="hljs-keyword">finally</span>{  
+            <span class="hljs-comment">//一些必要的清理工作  </span>
+            <span class="hljs-keyword">if</span>(server != <span class="hljs-keyword">null</span>){  
+                System.out.println(<span class="hljs-string">"服务器已关闭。"</span>);  
+                server.close();  
+                server = <span class="hljs-keyword">null</span>;  
+            }  
+        }  
+    }  
+}  </code></pre>
+
+<ul>
+<li>1,同步和异步是针对应用程序和内核的交互而言的。 </li>
+<li>2,阻塞和非阻塞是针对于进程在访问数据的时候，根据IO操作的就绪状态来采取的不同方式，说白了是一种读取或者写入操作函数的实现方式，阻塞方式下读取或者写入函数将一直等待，而非阻塞方式下，读取或者写入函数会立即返回一个状态值。  </li>
+</ul>
+
+<p>由上描述基本可以总结一句简短的话，<strong>同步和异步是目的，阻塞和非阻塞是实现方式</strong>。</p>
+
+<p><strong>同步阻塞：</strong>  <br>
+在此种方式下，用户进程在发起一个IO操作以后，必须等待IO操作的完成，只有当真正完成了IO操作以后，用户进程才能运行。JAVA传统的IO模型属于此种方式。 </p>
+
+<p><strong>同步非阻塞：</strong>  <br>
+在此种方式下，用户进程发起一个IO操作以后边可返回做其它事情，但是用户进程需要时不时的询问IO操作是否就绪，这就要求用户进程不停的去询问，从而引入不必要的CPU资源浪费。其中目前JAVA的NIO就属于同步非阻塞IO。  <br>
+<strong>异步：</strong>  <br>
+此种方式下是指应用发起一个IO操作以后，不等待内核IO操作的完成，等内核完成IO操作以后会通知应用程序。</p>
+
+<p>如果你想吃一份宫保鸡丁盖饭： </p>
+
+<p>同步阻塞：你到饭馆点餐，然后在那等着，还要一边喊：好了没啊！ </p>
+
+<p>同步非阻塞：在饭馆点完餐，就去遛狗了。不过溜一会儿，就回饭馆喊一声：好了没啊！ </p>
+
+<p>异步阻塞：遛狗的时候，接到饭馆电话，说饭做好了，让您亲自去拿。 </p>
+
+<p>异步非阻塞：饭馆打电话说，我们知道您的位置，一会给你送过来，安心遛狗就可以了。</p>
+
+
+
+<h4 id="nio-编程">NIO 编程</h4>
+
+
+
+<h5 id="简介"><strong>简介</strong></h5>
+
+<p>Java NIO(New IO)是一个可以替代标准Java IO API（从Java 1.4开始)，Java NIO提供了与标准IO不同的IO工作方式。</p>
+
+<p>Java NIO 由以下几个核心部分组成： </p>
+
+<ul>
+<li>Channels</li>
+<li>Buffers</li>
+<li>Selectors</li>
+</ul>
+
+<p>虽然Java NIO 中除此之外还有很多类和组件，但Channel，Buffer 和 Selector 构成了核心的API。其它组件，如Pipe和FileLock，只不过是与三个核心组件共同使用的工具类。因此，我将集中精力在这三个组件上。其它组件会在单独的章节中讲到。 </p>
+
+<p>注意（每个线程的处理流程大概都是读取数据、解码、计算处理、编码、发送响应）</p>
+
+
+
+<h5 id="非常形象的实例"><strong>非常形象的实例</strong></h5>
+
+<p>小量的线程如何同时为大量连接服务呢，答案就是就绪选择。这就好比到餐厅吃饭，每来一桌客人，都有一个服务员专门为你服务，从你到餐厅到结帐走人，这样方式的好处是服务质量好，一对一的服务，VIP啊，可是缺点也很明显，成本高，如果餐厅生意好，同时来100桌客人，就需要100个服务员，那老板发工资的时候得心痛死了，这就是传统的一个连接一个线程的方式。</p>
+
+<p>老板是什么人啊，精着呢。这老板就得捉摸怎么能用10个服务员同时为100桌客人服务呢，老板就发现，服务员在为客人服务的过程中并不是一直都忙着，客人点完菜，上完菜，吃着的这段时间，服务员就闲下来了，可是这个服务员还是被这桌客人占用着，不能为别的客人服务，用华为领导的话说，就是工作不饱满。那怎么把这段闲着的时间利用起来呢。这餐厅老板就想了一个办法，让一个服务员（前台）专门负责收集客人的需求，登记下来，比如有客人进来了、客人点菜了，客人要结帐了，都先记录下来按顺序排好。每个服务员到这里领一个需求，比如点菜，就拿着菜单帮客人点菜去了。点好菜以后，服务员马上回来，领取下一个需求，继续为别人客人服务去了。这种方式服务质量就不如一对一的服务了，当客人数据很多的时候可能需要等待。但好处也很明显，由于在客人正吃饭着的时候服务员不用闲着了，服务员这个时间内可以为其他客人服务了，原来10个服务员最多同时为10桌客人服务，现在可能为50桌，10客人服务了。</p>
+
+<p>这种服务方式跟传统的区别有两个：</p>
+
+<p>1、增加了一个角色，要有一个专门负责收集客人需求的人。NIO里对应的就是Selector。</p>
+
+<p>2、由阻塞服务方式改为非阻塞服务了，客人吃着的时候服务员不用一直侯在客人旁边了。传统的IO操作，比如read()，当没有数据可读的时候，线程一直阻塞被占用，直到数据到来。NIO中没有数据可读时，read()会立即返回0，线程不会阻塞。</p>
+
+<p>NIO中，客户端创建一个连接后，先要将连接注册到Selector，相当于客人进入餐厅后，告诉前台你要用餐，前台会告诉你你的桌号是几号，然后你就可能到那张桌子坐下了，SelectionKey就是桌号。当某一桌需要服务时，前台就记录哪一桌需要什么服务，比如1号桌要点菜，2号桌要结帐，服务员从前台取一条记录，根据记录提供服务，完了再来取下一条。这样服务的时间就被最有效的利用起来了。</p>
+
+
+
+<h5 id="工作原理"><strong>工作原理</strong></h5>
+
+<p><img src="http://img.blog.csdn.net/20170720221853064?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+<h5 id="java-nio和io的主要区别"><strong>Java NIO和IO的主要区别</strong></h5>
+
+<table>
+<thead>
+<tr>
+  <th>IO</th>
+  <th>NIO</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Stream oriented</td>
+  <td>Buffer oriented</td>
+</tr>
+<tr>
+  <td>Blocking IO</td>
+  <td>Non blocking IO</td>
+</tr>
+<tr>
+  <td></td>
+  <td>Selectors</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h6 id="面向流与面向缓冲"><strong>面向流与面向缓冲</strong></h6>
+
+<p>Java NIO和IO之间第一个最大的区别是，IO是面向流的，NIO是面向缓冲区的</p>
+
+<p>Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它<strong>不能前后移动流中的数据</strong>。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区。 Java NIO的缓冲导向方法略有不同。数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动。这就增加了处理过程中的<strong>灵活性</strong>。但是，还需要检查是否该缓冲区中包含所有您需要处理的数据。而且，需确保当更多的数据读入缓冲区时，不要覆盖缓冲区里尚未处理的数据。 </p>
+
+
+
+<h6 id="阻塞与非阻塞io"><strong>阻塞与非阻塞IO</strong></h6>
+
+<p>Java IO的各种流是阻塞的。这意味着，当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了。 Java NIO的非阻塞模式，使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取。而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。 线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。 </p>
+
+
+
+<h5 id="nio和io如何影响应用程序的设计"><strong>NIO和IO如何影响应用程序的设计</strong></h5>
+
+<p>无论您选择IO或NIO工具箱，可能会影响您应用程序设计的以下几个方面： </p>
+
+<ul>
+<li>对NIO或IO类的API调用。</li>
+<li>数据处理。</li>
+<li>用来处理数据的线程数。</li>
+</ul>
+
+
+
+<h5 id="通道-channel">通道 Channel</h5>
+
+
+
+<h6 id="简介-1"><strong>简介</strong></h6>
+
+<p>Channel 是对数据的源头和数据目标点流经途径的抽象，在这个意义上和 InputStream 和 OutputStream 类似。Channel可以译为“通道、管 道”，而传输中的数据仿佛就像是在其中流淌的水。前面也提到了Buffer，Buffer和Channel相互配合使用，才是Java的NIO。</p>
+
+
+
+<h6 id="java-nio的通道与流区别">Java NIO的通道与流区别</h6>
+
+<ul>
+<li><p>既可以从通道中读取数据，又可以写数据到通道。但流的读写通常是单向的。</p></li>
+<li><p>通道可以异步地读写。</p></li>
+<li><p>通道中的数据总是要先读到一个Buffer，或者总是要从一个Buffer中写入。</p>
+
+<p>​</p></li>
+</ul>
+
+<p>我们对数据的读取和写入要通过Channel，它就像水管一样，是一个通道。通道不同于流的地方就是通道是双向的，可以用于读、写和同时读写操作。 数据可以从Channel读到Buffer中，也可以从Buffer 写到Channel中。</p>
+
+<p><img src="http://img.blog.csdn.net/20170720221938169?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+<p>注意：通道必须结合Buffer使用，不能直接向通道中读/写数据</p>
+
+
+
+<h6 id="channel主要分类"><strong>Channel主要分类</strong></h6>
+
+<p>广义上来说通道可以被分为两类：File I/O和Stream I/O，也就是文件通道和套接字通道。如果分的更细致一点则是：</p>
+
+<ul>
+<li>FileChannel 从文件读写数据</li>
+<li>SocketChannel 通过TCP读写网络数据</li>
+<li>ServerSocketChannel 可以监听新进来的TCP连接，并对每个链接创建对应的SocketChannel</li>
+<li>DatagramChannel 通过UDP读写网络中的数据</li>
+<li>Pipe</li>
+</ul>
+
+
+
+<h6 id="channel的实现"><strong>Channel的实现</strong></h6>
+
+<p>这些是Java NIO中最重要的通道的实现： </p>
+
+<ul>
+<li>FileChannel：从文件中读写数据。</li>
+<li>DatagramChannel：能通过UDP读写网络中的数据。</li>
+<li>SocketChannel：能通过TCP读写网络中的数据。</li>
+<li>ServerSocketChannel：可以监听新进来的TCP连接，像Web服务器那样。对每一个新进来的连接都会创建一个SocketChannel。</li>
+</ul>
+
+
+
+<h6 id="打开filechannel">打开FileChannel</h6>
+
+<p>在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例。下面是通过RandomAccessFile打开FileChannel的示例：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">RandomAccessFile aFile = new RandomAccessFile(<span class="hljs-string">"d://nio-data.txt"</span>, <span class="hljs-string">"rw"</span>);
+FileChannel <span class="hljs-keyword">in</span>Channel = aFile.getChannel();</code></pre>
+
+
+
+<h6 id="从filechannel读取数据">从FileChannel读取数据</h6>
+
+<p>调用多个read()方法之一从FileChannel中读取数据。如：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">ByteBuffer buf = ByteBuffer.allocate(<span class="hljs-number">48</span>);
+<span class="hljs-keyword">int</span> bytesRead = inChannel.<span class="hljs-keyword">read</span>(buf);</code></pre>
+
+<p>首先，分配一个Buffer。从FileChannel中读取的数据将被读到Buffer中。</p>
+
+<p>然后，调用FileChannel.read()方法。该方法将数据从FileChannel读取到Buffer中。read()方法返回的int值表示了有多少字节被读到了Buffer中。如果返回-1，表示到了文件末尾。</p>
+
+
+
+<h6 id="向filechannel写数据">向FileChannel写数据</h6>
+
+<p>使用FileChannel.write()方法向FileChannel写数据，该方法的参数是一个Buffer。如：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">String newData = <span class="hljs-string">"New String to write to file..."</span> + System<span class="hljs-preprocessor">.currentTimeMillis</span>()<span class="hljs-comment">;</span>
+ByteBuffer buf = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">48</span>)<span class="hljs-comment">;</span>
+buf<span class="hljs-preprocessor">.clear</span>()<span class="hljs-comment">;</span>
+buf<span class="hljs-preprocessor">.put</span>(newData<span class="hljs-preprocessor">.getBytes</span>())<span class="hljs-comment">;</span>
+buf<span class="hljs-preprocessor">.flip</span>()<span class="hljs-comment">;</span>
+while(buf<span class="hljs-preprocessor">.hasRemaining</span>()) {
+    channel<span class="hljs-preprocessor">.write</span>(buf)<span class="hljs-comment">;</span>
+}</code></pre>
+
+<p>注意FileChannel.write()是在while循环中调用的。因为无法保证write()方法一次能向FileChannel写入多少字节，因此需要重复调用write()方法，直到Buffer中已经没有尚未写入通道的字节。</p>
+
+
+
+<h6 id="关闭filechannel">关闭FileChannel</h6>
+
+<p>用完FileChannel后必须将其关闭。如：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">channel.<span class="hljs-keyword">close</span>();</code></pre>
+
+
+
+<h6 id="filechannel的position方法">FileChannel的position方法</h6>
+
+<p>有时可能需要在FileChannel的某个特定位置进行数据的读/写操作。可以通过调用position()方法获取FileChannel的当前位置。</p>
+
+<p>也可以通过调用position(long pos)方法设置FileChannel的当前位置。</p>
+
+<p>这里有两个例子:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">long <span class="hljs-keyword">pos</span> = channel.position();
+channel.position(<span class="hljs-keyword">pos</span> +<span class="hljs-number">123</span>);</code></pre>
+
+<p>如果将位置设置在文件结束符之后，然后试图从文件通道中读取数据，读方法将返回-1 —— 文件结束标志。</p>
+
+<p>如果将位置设置在文件结束符之后，然后向通道中写数据，文件将撑大到当前位置并写入数据。这可能导致“文件空洞”，磁盘上物理文件中写入的数据间有空隙。</p>
+
+
+
+<h6 id="filechannel的size方法">FileChannel的size方法</h6>
+
+<p>FileChannel实例的size()方法将返回该实例所关联文件的大小。如:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">long fileSize </span>=<span class="hljs-string"> channel.size();</span></code></pre>
+
+
+
+<h6 id="filechannel的truncate方法">FileChannel的truncate方法</h6>
+
+<p>可以使用FileChannel.truncate()方法截取一个文件。截取文件时，文件将中指定长度后面的部分将被删除。如：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs sql">channel.<span class="hljs-operator"><span class="hljs-keyword">truncate</span>(<span class="hljs-number">1024</span>);</span></code></pre>
+
+<p>这个例子截取文件的前1024个字节。</p>
+
+
+
+<h6 id="filechannel的force方法">FileChannel的force方法</h6>
+
+<p>FileChannel.force()方法将通道里尚未写入磁盘的数据强制写到磁盘上。出于性能方面的考虑，操作系统会将数据缓存在内存中，所以无法保证写入到FileChannel里的数据一定会即时写到磁盘上。要保证这一点，需要调用force()方法。</p>
+
+<p>force()方法有一个boolean类型的参数，指明是否同时将文件元数据（权限信息等）写到磁盘上。</p>
+
+<p>下面的例子同时将文件数据和元数据强制写到磁盘上：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">channel.force(<span class="hljs-literal">true</span>);</code></pre>
+
+<p><strong>transferFrom()</strong></p>
+
+<p>FileChannel无法设置为非阻塞模式，它总是运行在阻塞模式下。</p>
+
+<p>FileChannel的transferFrom()方法可以将数据从源通道传输到FileChannel中（译者注：这个方法在JDK文档中的解释为将字节从给定的可读取字节通道传输到此通道的文件中）。下面是一个简单的例子： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs axapta"><span class="hljs-comment">//在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，</span>
+<span class="hljs-comment">//需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例。</span>
+RandomAccessFile fromFile = <span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">"fromFile.txt"</span>, <span class="hljs-string">"rw"</span>);  
+FileChannel      fromChannel = fromFile.getChannel();  
+RandomAccessFile toFile = <span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">"toFile.txt"</span>, <span class="hljs-string">"rw"</span>);  
+FileChannel      toChannel = toFile.getChannel();   
+<span class="hljs-keyword">long</span> position = <span class="hljs-number">0</span>;  
+<span class="hljs-keyword">long</span> <span class="hljs-keyword">count</span> = fromChannel.size();  
+toChannel.transferFrom(position, <span class="hljs-keyword">count</span>, fromChannel);  </code></pre>
+
+<p>transferFrom 方法的输入参数 position 表示从 position 处开始向目标文件写入数据，count 表示最多传输的字节数。如果源通道的剩余空间小于 count 个字节，则所传输的字节数要小于请求的字节数。 </p>
+
+<p>此外要注意，在 SoketChannel 的实现中，SocketChannel 只会传输此刻准备好的数据（可能不足count字节）。因此，SocketChannel 可能不会将请求的所有数据(count个字节)全部传输到 FileChannel 中。 </p>
+
+<p><strong>transferTo()</strong></p>
+
+<p>transferTo()方法将数据从FileChannel传输到其他的channel中。下面是一个简单的例子： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs axapta">RandomAccessFile fromFile = <span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">"fromFile.txt"</span>, <span class="hljs-string">"rw"</span>);  
+FileChannel      fromChannel = fromFile.getChannel();    
+RandomAccessFile toFile = <span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">"toFile.txt"</span>, <span class="hljs-string">"rw"</span>);  
+FileChannel      toChannel = toFile.getChannel();  
+<span class="hljs-keyword">long</span> position = <span class="hljs-number">0</span>;  
+<span class="hljs-keyword">long</span> <span class="hljs-keyword">count</span> = fromChannel.size();  
+fromChannel.transferTo(position, <span class="hljs-keyword">count</span>, toChannel);  </code></pre>
+
+<p>是不是发现这个例子和前面那个例子特别相似？除了调用方法的FileChannel对象不一样外，其他的都一样。 </p>
+
+<p>上面所说的关于SocketChannel的问题在transferTo()方法中同样存在。SocketChannel会一直传输数据直到目标buffer被填满。 </p>
+
+
+
+<h6 id="channel简单实例"><strong>Channel简单实例</strong></h6>
+
+<p>下面是Channel的一个简单的实例：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">程序清单 <span class="hljs-number">1</span>-<span class="hljs-number">1</span>
+RandomAccessFile aFile = new RandomAccessFile(<span class="hljs-string">"d:\\ay.txt"</span>, <span class="hljs-string">"rw"</span>)<span class="hljs-comment">;</span>
+FileChannel fileChannel = aFile<span class="hljs-preprocessor">.getChannel</span>()<span class="hljs-comment">;</span>
+//分配缓存区大小
+ByteBuffer buf = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">48</span>)<span class="hljs-comment">;</span>
+int bytesRead = fileChannel<span class="hljs-preprocessor">.read</span>(buf)<span class="hljs-comment">;</span>
+while (bytesRead != -<span class="hljs-number">1</span>) {
+    System<span class="hljs-preprocessor">.out</span><span class="hljs-preprocessor">.println</span>(<span class="hljs-string">"Read "</span> + bytesRead)<span class="hljs-comment">;</span>
+    //buf<span class="hljs-preprocessor">.flip</span>()的调用，首先读取数据到Buffer，然后反转Buffer,接着再从Buffer中读取数据（注：flip：空翻，反转）
+    buf<span class="hljs-preprocessor">.flip</span>()<span class="hljs-comment">;</span>
+    //判断是否有剩余（注：Remaining：剩余的）
+    while(buf<span class="hljs-preprocessor">.hasRemaining</span>()){
+        System<span class="hljs-preprocessor">.out</span><span class="hljs-preprocessor">.print</span>((char) buf<span class="hljs-preprocessor">.get</span>())<span class="hljs-comment">;</span>
+    }
+    buf<span class="hljs-preprocessor">.clear</span>()<span class="hljs-comment">;</span>
+    bytesRead = fileChannel<span class="hljs-preprocessor">.read</span>(buf)<span class="hljs-comment">;</span>
+}
+aFile<span class="hljs-preprocessor">.close</span>()<span class="hljs-comment">;</span>
+
+</code></pre>
+
+
+
+<h5 id="缓冲区-buffer">缓冲区 Buffer</h5>
+
+<p>缓冲区本质上是一块可以写入数据，然后可以从中读取数据的内存。这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。 </p>
+
+
+
+<h6 id="buffer的基本用法"><strong>Buffer的基本用法</strong></h6>
+
+<p>使用Buffer读写数据一般遵循以下四个步骤： </p>
+
+<ul>
+<li>写入数据到Buffer</li>
+<li>调用flip()方法</li>
+<li>从Buffer中读取数据</li>
+<li>调用clear()方法或者compact()方法</li>
+</ul>
+
+<p>当向buffer写入数据时，buffer会记录下写了多少数据。一旦要读取数据，需要通过 flip() 方法将 Buffer 从<strong>写模式切换到读模式</strong>。在读模式下，可以读取之前写入到buffer的所有数据。 </p>
+
+<p>一旦读完了所有的数据，就需要清空缓冲区，让它可以再次被写入。有两种方式能清空缓冲区：调用 <strong>clear() 或 compact() 方法</strong>。clear() 方法会清空整个缓冲区。compact() <strong>方法只会清除已经读过的数据</strong>。任何未读的数据都被移到缓冲区的起始处，新写入的数据将放到缓冲区未读数据的后面。 </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">程序清单 <span class="hljs-number">1</span>-<span class="hljs-number">1</span>
+RandomAccessFile aFile = new RandomAccessFile(<span class="hljs-string">"d:\\ay.txt"</span>, <span class="hljs-string">"rw"</span>)<span class="hljs-comment">;</span>
+FileChannel fileChannel = aFile<span class="hljs-preprocessor">.getChannel</span>()<span class="hljs-comment">;</span>
+//分配缓存区大小
+ByteBuffer buf = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">48</span>)<span class="hljs-comment">;</span>
+int bytesRead = fileChannel<span class="hljs-preprocessor">.read</span>(buf)<span class="hljs-comment">;</span>
+while (bytesRead != -<span class="hljs-number">1</span>) {
+    System<span class="hljs-preprocessor">.out</span><span class="hljs-preprocessor">.println</span>(<span class="hljs-string">"Read "</span> + bytesRead)<span class="hljs-comment">;</span>
+    //buf<span class="hljs-preprocessor">.flip</span>()的调用，首先读取数据到Buffer，然后反转Buffer,接着再从Buffer中读取数据（注：flip：空翻，反转）
+    buf<span class="hljs-preprocessor">.flip</span>()<span class="hljs-comment">;</span>
+    //判断是否有剩余（注：Remaining：剩余的）
+    while(buf<span class="hljs-preprocessor">.hasRemaining</span>()){
+        System<span class="hljs-preprocessor">.out</span><span class="hljs-preprocessor">.print</span>((char) buf<span class="hljs-preprocessor">.get</span>())<span class="hljs-comment">;</span>
+    }
+    buf<span class="hljs-preprocessor">.clear</span>()<span class="hljs-comment">;</span>
+    bytesRead = fileChannel<span class="hljs-preprocessor">.read</span>(buf)<span class="hljs-comment">;</span>
+}
+aFile<span class="hljs-preprocessor">.close</span>()<span class="hljs-comment">;</span></code></pre>
+
+
+
+<h6 id="buffer的三个属性"><strong>Buffer的三个属性</strong></h6>
+
+<p>为了理解Buffer的工作原理，需要熟悉它的三个属性： </p>
+
+<ul>
+<li><strong>capacity</strong>：作为一个内存块，Buffer 有一个固定的大小值，也叫 “capacity”. 你只能往里写 capacity 个 byte、long，char 等类型。一旦 Buffer 满了，需要将其清空（通过读数据或者清除数据）才能继续写数据往里写数据。 </li>
+<li><strong>position</strong>：当你写数据到Buffer中时，position表示当前的位置。初始的position值为0.当一个byte、long等数据写到Buffer后， position会向前移动到下一个可插入数据的 Buffer 单元。position 最大可为 capacity – 1。 当读取数据时，也是从某个特定位置读。当将 Buffer 从写模式切换到读模式，position会被重置为 0。当从Buffer的 position 处读取数据时，position 向前移动到下一个可读的位置。 </li>
+<li><strong>limit</strong>：在写模式下，Buffer的limit表示你最多能往 Buffer 里写多少数据。 <strong>写模式下</strong>，limit 等于 Buffer 的 capacity 。 当切换Buffer到读模式时， limit 表示你<strong>最多</strong>能读到多少数据。因此，当切换Buffer到读模式时，limit 会被设置成写模式下的 position 值。换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是 position ）。 </li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20170720222019298?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+<h6 id="buffer的类型"><strong>Buffer的类型</strong></h6>
+
+<p>Java NIO 有以下Buffer类型： </p>
+
+<ul>
+<li>ByteBuffer</li>
+<li>MappedByteBuffer</li>
+<li>CharBuffer</li>
+<li>DoubleBuffer</li>
+<li>FloatBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>ShortBuffer</li>
+</ul>
+
+
+
+<h6 id="buffer的分配"><strong>Buffer的分配</strong></h6>
+
+<p>要想获得一个Buffer对象首先要进行分配。 每一个Buffer类都有一个allocate方法。下面是一个分配48字节capacity的ByteBuffer的例子。 </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">ByteBuffer buf </span>=<span class="hljs-string"> ByteBuffer.allocate(48);  </span></code></pre>
+
+<p>这是分配一个可存储1024个字符的CharBuffer： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">CharBuffer buf </span>=<span class="hljs-string"> CharBuffer.allocate(1024);  </span></code></pre>
+
+
+
+<h6 id="buffer写数据"><strong>Buffer写数据</strong></h6>
+
+<p>写数据到Buffer有两种方式： </p>
+
+<ul>
+<li>从Channel写到Buffer。</li>
+<li>通过Buffer的put()方法写到Buffer里。</li>
+</ul>
+
+<p>从Channel写到Buffer，例如：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">int bytesRead = <span class="hljs-keyword">in</span>Channel.read(buf); //<span class="hljs-built_in">read</span> into buffer</code></pre>
+
+<p>通过put方法写Buffer的例子： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">buf.<span class="hljs-built_in">put</span>(<span class="hljs-number">127</span>);  </code></pre>
+
+<p>put方法有很多版本，允许你以不同的方式把数据写入到Buffer中。例如， 写到一个指定的位置，或者把一个字节数组写入到Buffer。 更多Buffer实现的细节参考JavaDoc。 </p>
+
+
+
+<h5 id="flip方法"><strong>flip()方法</strong></h5>
+
+<p>flip方法将Buffer从写模式切换到读模式。调用flip()方法会将position设回0，并将limit设置成之前position的值。 </p>
+
+<p>换句话说，position现在用于标记读的位置，limit表示之前写进了多少个byte、char等 —— 现在能读取多少个byte、char等。 </p>
+
+
+
+<h6 id="buffer中读取数据"><strong>Buffer中读取数据</strong></h6>
+
+<p>从Buffer中读取数据有两种方式： </p>
+
+<ul>
+<li>从Buffer读取数据到Channel。</li>
+<li>使用get()方法从Buffer中读取数据。</li>
+</ul>
+
+<p>从Buffer读取数据到Channel的例子： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">//<span class="hljs-built_in">read</span> <span class="hljs-built_in">from</span> buffer <span class="hljs-keyword">into</span> channel.  
+int bytesWritten = inChannel.<span class="hljs-built_in">write</span>(buf);  </code></pre>
+
+<p>使用get()方法从Buffer中读取数据的例子 ：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs"><span class="hljs-keyword">byte</span> aByte = buf.<span class="hljs-keyword">get</span>();  </code></pre>
+
+<p>get方法有很多版本，允许你以不同的方式从Buffer中读取数据。例如，从指定position读取，或者从Buffer中读取数据到字节数组。</p>
+
+<p><strong>rewind()方法</strong> </p>
+
+<p>Buffer.rewind()将 position 设回0，所以你可以重读Buffer中的所有数据。limit 保持不变，仍然表示能从Buffer中读取多少个元素（byte、char等）</p>
+
+<p><strong>clear()与compact()方法</strong></p>
+
+<p>一旦读完Buffer中的数据，需要让Buffer准备好再次被写入。可以通过clear()或compact()方法来完成。 </p>
+
+<p>如果调用的是 clear() 方法，position将被设回 0，limit被设置成 capacity 的值。换句话说，Buffer 被清空了。</p>
+
+<p>如果Buffer中有一些未读的数据，调用clear()方法，数据将“被遗忘”，意味着不再有任何标记会告诉你哪些数据被读过，哪些还没有。 </p>
+
+<p>如果Buffer中仍有未读的数据，且后续还需要这些数据，但是此时想要先先写些数据，那么使用compact()方法。</p>
+
+<p>compact()方法将所有未读的数据拷贝到Buffer起始处。然后将position设到最后一个未读元素正后面。limit 属性依然像 clear() 方法一样，设置成 capacity。现在Buffer准备好写数据了，但是不会覆盖未读的数据。 </p>
+
+<p><strong>mark()与reset()方法</strong></p>
+
+<p>通过调用Buffer.mark()方法，可以标记Buffer中的一个特定position。之后可以通过调用Buffer.reset()方法恢复到这个position。例如： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs sql">buffer.mark();  
+//<span class="hljs-operator"><span class="hljs-keyword">set</span> position back <span class="hljs-keyword">to</span> mark.  
+buffer.reset();</span>  
+equals()与compareTo()方法</code></pre>
+
+<p>可以使用equals()和compareTo()方法两个Buffer。 </p>
+
+<p><strong>equals()</strong></p>
+
+<p>当满足下列条件时，表示两个Buffer相等： </p>
+
+<ul>
+<li>有相同的类型（byte、char、int等）。</li>
+<li>Buffer中剩余的 byte、char 等的个数相等。</li>
+<li>Buffer中所有剩余的byte、char等都相同。</li>
+</ul>
+
+<p>如你所见，equals只是比较Buffer的一部分，不是每一个在它里面的元素都比较。实际上，它只比较Buffer中的剩余元素。 </p>
+
+<p><strong>compareTo()方法</strong></p>
+
+<p>compareTo()方法比较两个Buffer的剩余元素(byte、char等)， 如果满足下列条件，则认为一个Buffer “小于” 另一个Buffer： </p>
+
+<ul>
+<li>第一个不相等的元素小于另一个Buffer中对应的元素。</li>
+<li>所有元素都相等，但第一个Buffer比另一个先耗尽(第一个Buffer的元素个数比另一个少)。</li>
+</ul>
+
+
+
+<h5 id="选择器-selector">选择器（ Selector）</h5>
+
+
+
+<h6 id="简单介绍">简单介绍</h6>
+
+<p>Java NIO引入了选择器的概念，选择器用于监听多个通道的事件（比如：连接打开，数据到达）。Selector提供选择<strong>已经就绪的任务的能力</strong>：Selector会不断轮询注册在其上的Channel，如果某个Channel上面发生读或者写事件，这个Channel就处于就绪状态，会被Selector轮询出来，然后通过<strong>SelectionKey</strong>可以获取就绪Channel的集合，进行后续的I/O操作。</p>
+
+<p>一个Selector可以同时轮询多个Channel，因为JDK使用了epoll()代替传统的select实现，所以没有最大连接句柄1024/2048的限制。所以，只需要一个线程负责Selector的轮询，就可以接入成千上万的客户端。</p>
+
+<p><img src="http://img.blog.csdn.net/20170720222104123?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+<p>要使用Selector，得向 Selector 注册 Channel ，然后调用它的 select() 方法。这个方法会一直阻塞到某个注册的通道有事件就绪。一旦这个方法返回，线程就可以处理这些事件，事件的例子比如新连接进来，数据接收等。 </p>
+
+
+
+<h6 id="selector的创建"><strong>Selector的创建</strong></h6>
+
+<p>通过调用Selector.open()方法创建一个Selector，如下： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs oxygene"><span class="hljs-keyword">Selector</span> <span class="hljs-keyword">selector</span> = <span class="hljs-keyword">Selector</span>.open();  </code></pre>
+
+
+
+<h6 id="selector注册通道"><strong>Selector注册通道</strong></h6>
+
+<p>为了将 Channel 和 Selector 配合使用，必须将 channel 注册到 selector 上。通过 SelectableChannel.register() 方法来实现，如下： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">channel<span class="hljs-preprocessor">.configureBlocking</span>(false)<span class="hljs-comment">;  </span>
+SelectionKey key = channel<span class="hljs-preprocessor">.register</span>(selector,  Selectionkey<span class="hljs-preprocessor">.OP</span>_READ)<span class="hljs-comment">;  </span></code></pre>
+
+<p>与 Selector 一起使用时，Channel 必须处于非阻塞模式下。这意味着不能将 FileChannel 与 Selector 一起使用，因为 FileChannel 不能切换到非阻塞模式。而套接字通道都可以。 </p>
+
+<p>注意register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： </p>
+
+<ul>
+<li>Connect</li>
+<li>Accept</li>
+<li>Read</li>
+<li>Write</li>
+</ul>
+
+<p>通道触发了一个事件意思是该事件已经就绪。所以，某个channel成功连接到另一个服务器称为“连接就绪”。一个 server socket channel 准备好接收新进入的连接称为“接收就绪”。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”。 </p>
+
+<p>这四种事件用 SelectionKey 的四个常量来表示： </p>
+
+<ul>
+<li>SelectionKey.OP_CONNECT</li>
+<li>SelectionKey.OP_ACCEPT</li>
+<li>SelectionKey.OP_READ</li>
+<li>SelectionKey.OP_WRITE</li>
+</ul>
+
+<p>如果你对不止一种事件感兴趣，那么可以用 “ 位 或 ” 操作符将常量连接起来，如下： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">int interestSet = SelectionKey<span class="hljs-preprocessor">.OP</span>_READ | SelectionKey<span class="hljs-preprocessor">.OP</span>_WRITE<span class="hljs-comment">;  </span></code></pre>
+
+
+
+<h6 id="selectionkey"><strong>SelectionKey</strong></h6>
+
+<p>在上一小节中，当向Selector注册Channel时，register() 方法会返回一个SelectionKey对象。这个对象包含了一些你感兴趣的属性： </p>
+
+<ul>
+<li>interest集合</li>
+<li>ready集合</li>
+<li>Channel</li>
+<li>Selector</li>
+<li>附加的对象（可选）</li>
+</ul>
+
+<p>下面我会描述这些属性。</p>
+
+<p><strong>interest集合</strong></p>
+
+<p>就像向Selector注册通道一节中所描述的，interest集合是你所选择的感兴趣的事件集合。可以通过 SelectionKey 读写 interest 集合，像这样：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">int interestSet = selectionKey<span class="hljs-preprocessor">.interestOps</span>()<span class="hljs-comment">;</span>
+boolean isInterestedInAccept  = (interestSet &amp; SelectionKey<span class="hljs-preprocessor">.OP</span>_ACCEPT) == SelectionKey<span class="hljs-preprocessor">.OP</span>_ACCEPT；
+boolean isInterestedInConnect = interestSet &amp; SelectionKey<span class="hljs-preprocessor">.OP</span>_CONNECT<span class="hljs-comment">;</span>
+boolean isInterestedInRead    = interestSet &amp; SelectionKey<span class="hljs-preprocessor">.OP</span>_READ<span class="hljs-comment">;</span>
+boolean isInterestedInWrite   = interestSet &amp; SelectionKey<span class="hljs-preprocessor">.OP</span>_WRITE<span class="hljs-comment">;</span></code></pre>
+
+<p>可以看到，用“位与”操作interest 集合和给定的 SelectionKey 常量，<strong>可以确定某个确定的事件是否在 interest 集合中</strong>。</p>
+
+<p><strong>ready集合</strong></p>
+
+<p>ready 集合是通道已经准备就绪的操作的集合。在一次选择(Selection)之后，你会首先访问这个readySet。Selection将在下一小节进行解释。可以这样访问ready集合：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">int readySet </span>=<span class="hljs-string"> selectionKey.readyOps();</span></code></pre>
+
+<p>可以用像检测 interest 集合那样的方法，来检测channel中什么事件或操作已经就绪。但是，也可以使用以下四个方法，它们都会返回一个布尔类型：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">selectionKey<span class="hljs-preprocessor">.isAcceptable</span>()<span class="hljs-comment">;</span>
+selectionKey<span class="hljs-preprocessor">.isConnectable</span>()<span class="hljs-comment">;</span>
+selectionKey<span class="hljs-preprocessor">.isReadable</span>()<span class="hljs-comment">;</span>
+selectionKey<span class="hljs-preprocessor">.isWritable</span>()<span class="hljs-comment">;</span></code></pre>
+
+<p><strong>Channel + Selector</strong></p>
+
+<p>从SelectionKey访问Channel和Selector很简单。如下：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs oxygene">Channel  channel  = selectionKey.channel();
+<span class="hljs-keyword">Selector</span> <span class="hljs-keyword">selector</span> = selectionKey.<span class="hljs-keyword">selector</span>();</code></pre>
+
+<p><strong>附加的对象</strong></p>
+
+<p>可以将一个对象或者更多信息附着到SelectionKey上，这样就能方便的识别某个给定的通道。例如，可以附加 与通道一起使用的Buffer，或是包含聚集数据的某个对象。使用方法如下：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">selectionKey<span class="hljs-preprocessor">.attach</span>(theObject)<span class="hljs-comment">;</span>
+Object attachedObj = selectionKey<span class="hljs-preprocessor">.attachment</span>()<span class="hljs-comment">;</span></code></pre>
+
+<p>还可以在用register()方法向Selector注册Channel的时候附加对象。如：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">SelectionKey key = channel<span class="hljs-preprocessor">.register</span>(selector, SelectionKey<span class="hljs-preprocessor">.OP</span>_READ, theObject)<span class="hljs-comment">;</span></code></pre>
+
+<p><strong>通过Selector选择通道</strong></p>
+
+<p>一旦向Selector注册了一或多个通道，就可以调用几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道。换句话说，如果你对“读就绪”的通道感兴趣，select()方法会返回读事件已经就绪的那些通道。</p>
+
+<p>下面是select()方法：</p>
+
+<ul>
+<li>int select()</li>
+<li>int select(long timeout)</li>
+<li>int selectNow()</li>
+</ul>
+
+<p>select()阻塞到至少有一个通道在你注册的事件上就绪了。</p>
+
+<p>select(long timeout) 和 select() 一样，除了最长会阻塞 timeout 毫秒(参数)。</p>
+
+<p>selectNow() 不会阻塞，不管什么通道就绪都立刻返回（译者注：此方法执行非阻塞的选择操作。如果自从前一次选择操作后，没有通道变成可选择的，则此方法直接返回零。）。</p>
+
+<p>select()方法返回的int值表示有多少通道已经就绪。亦即，自上次调用select()方法后有多少通道变成就绪状态。如果调用select()方法，因为有一个通道变成就绪状态，返回了1，若再次调用select()方法，如果另一个通道就绪了，它会再次返回1。如果对第一个就绪的channel没有做任何操作，现在就有两个就绪的通道，但在每次select()方法调用之间，只有一个通道就绪了。</p>
+
+<p><strong>selectedKeys()</strong></p>
+
+<p>一旦调用了select()方法，并且返回值表明有一个或更多个通道就绪了，然后可以通过调用selector的selectedKeys()方法，访问“已选择键集（selected key set）”中的就绪通道。如下所示：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs sql"><span class="hljs-operator"><span class="hljs-keyword">Set</span> selectedKeys = selector.selectedKeys();</span></code></pre>
+
+<p>当向 Selector 注册 Channel 时，Channel.register() 方法会返回一个 SelectionKey 对象。这个对象代表了注册到该Selector的通道。可以通过SelectionKey的selectedKeySet()方法访问这些对象。</p>
+
+<p>可以遍历这个已选择的键集合来访问就绪的通道。如下：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-constant">Set</span> selectedKeys = selector.selectedKeys();
+<span class="hljs-constant">Iterator</span> keyIterator = selectedKeys.iterator();
+<span class="hljs-keyword">while</span>(keyIterator.hasNext()) {
+    <span class="hljs-constant">SelectionKey</span> key = keyIterator.<span class="hljs-keyword">next</span>();
+    <span class="hljs-keyword">if</span>(key.isAcceptable()) {
+        <span class="hljs-regexp">//</span> a connection was accepted by a <span class="hljs-constant">ServerSocketChannel</span>.
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key.isConnectable()) {
+        <span class="hljs-regexp">//</span> a connection was established with a remote server.
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key.isReadable()) {
+        <span class="hljs-regexp">//</span> a channel is ready <span class="hljs-keyword">for</span> reading
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key.isWritable()) {
+        <span class="hljs-regexp">//</span> a channel is ready <span class="hljs-keyword">for</span> writing
+    }
+    keyIterator.remove();
+}</code></pre>
+
+<p>这个循环遍历已选择键集中的每个键，并检测各个键所对应的通道的就绪事件。</p>
+
+<p>注意每次迭代末尾的 keyIterator.remove() 调用。Selector不会自己从已选择键集中移除 SelectionKey 实例。必须在处理完通道时自己移除。下次该通道变成就绪时，Selector会再次将其放入已选择键集中。</p>
+
+<p>SelectionKey.channel() 方法返回的通道需要转型成你要处理的类型，如 ServerSocketChannel 或 SocketChannel 等。</p>
+
+<p><strong>wakeUp()</strong></p>
+
+<p>某个线程调用select()方法后阻塞了，即使没有通道已经就绪，也有办法让其从select()方法返回。只要让其它线程在第一个线程调用select()方法的那个对象上调用Selector.wakeup()方法即可。阻塞在select()方法上的线程会立马返回。</p>
+
+<p>如果有其它线程调用了wakeup()方法，但当前没有线程阻塞在select()方法上，下个调用select()方法的线程会立即“醒来（wake up）”。</p>
+
+<p><strong>close()</strong></p>
+
+<p>用完 Selector 后调用其 close() 方法会关闭该 Selector，且使注册到该Selector上的所有SelectionKey实例无效。通道本身并不会关闭。</p>
+
+<p>完整的示例</p>
+
+<p>这里有一个完整的示例，打开一个Selector，注册一个通道注册到这个Selector上(通道的初始化过程略去),然后持续监控这个Selector的四种事件（接受，连接，读，写）是否就绪。</p>
+
+<pre><code>Selector selector = Selector.open();
+channel.configureBlocking(false);
+SelectionKey key = channel.register(selector, SelectionKey.OP_READ);
+while(true) {
+  int readyChannels = selector.select();
+  if(readyChannels == 0) continue;
+  Set selectedKeys = selector.selectedKeys();
+  Iterator keyIterator = selectedKeys.iterator();
+  while(keyIterator.hasNext()) {
+  SelectionKey key = keyIterator.next();
+  if(key.isAcceptable()) {
+    // a connection was accepted by a ServerSocketChannel.
+  } else if (key.isConnectable()) {
+    // a connection was established with a remote server.
+  } else if (key.isReadable()) {
+    // a channel is ready for reading
+  } else if (key.isWritable()) {
+    // a channel is ready for writing
+  }
+    keyIterator.remove();
+  }
+}
+</code></pre>
+
+
+
+<h5 id="分散scatter聚集gather">分散（Scatter）/聚集（Gather）</h5>
+
+
+
+<h6 id="分散概念"><strong>分散概念</strong></h6>
+
+<p>分散（scatter）：从Channel中读取是指在读操作时将读取的数据写入多个buffer中。因此，Channel将从Channel中读取的数据“分散（scatter）”到多个Buffer中。 </p>
+
+<p><img src="http://img.blog.csdn.net/20170720222149110?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">程序清单 <span class="hljs-number">1</span>-<span class="hljs-number">1</span>
+ByteBuffer header = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">128</span>)<span class="hljs-comment">;  </span>
+ByteBuffer body   = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">1024</span>)<span class="hljs-comment">;  </span>
+ByteBuffer[] bufferArray = { header, body }<span class="hljs-comment">;  </span>
+channel<span class="hljs-preprocessor">.read</span>(bufferArray)<span class="hljs-comment">;  </span></code></pre>
+
+<p>注意buffer首先被插入到数组，然后再将数组作为 channel.read() 的输入参数。read() 方法按照 buffer 在数组中的顺序将从 channel 中读取的数据写入到buffer，当一个 buffer 被写满后，channel 紧接着向另一个 buffer 中写。 </p>
+
+<p>Scattering Reads在移动下一个buffer前，必须填满当前的buffer，这也意味着它不适用于动态消息(译者注：消息大小不固定)。换句话说，如果存在消息头和消息体，消息头必须完成填充（例如 128byte），Scattering Reads才能正常工作。 </p>
+
+
+
+<h6 id="聚集概念"><strong>聚集概念</strong></h6>
+
+<p><img src="http://img.blog.csdn.net/20170720222218006?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+<p>聚集（gather）：写入Channel是指在写操作时将多个buffer的数据写入同一个Channel，因此，Channel 将多个Buffer中的数据“聚集（gather）”后发送到Channel。 </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs d">示例<span class="hljs-number">1</span>-<span class="hljs-number">1</span>
+ByteBuffer header = ByteBuffer.allocate(<span class="hljs-number">128</span>);  
+ByteBuffer <span class="hljs-keyword">body</span>   = ByteBuffer.allocate(<span class="hljs-number">1024</span>);  
+<span class="hljs-comment">//write data into buffers  </span>
+ByteBuffer[] bufferArray = { header, <span class="hljs-keyword">body</span> };  
+channel.write(bufferArray);  </code></pre>
+
+<p>buffer的一个数组被传递给了 write() 方法，这个方法写他们在数组中遇到的接下来的 buffer 的内容。只是这些数据在 buffer 的 position 和 limit 直接被写。因此，如果一个buffer有一个128字节的容量，但是只包含了58个字节，只有58个字节可以从 buffer 中写到 channel 。因此，一个聚集写操作通过动态可变大小的消息部分会工作的很好，跟分散读取正好相反。</p>
+
+
+
+<h6 id="分散聚集的应用"><strong>分散/聚集的应用</strong></h6>
+
+<p>scatter / gather经常用于需要将传输的数据分开处理的场合。例如，您可能在编写一个使用消息对象的网络应用程序，每一个消息被划分为固定长度的头部和固定长度的正文。您可以创建一个刚好可以容纳头部的缓冲区和另一个刚好可以容纳正文的缓冲区。当您将它们放入一个数组中并使用分散读取来向它们读入消息时，头部和正文将整齐地划分到这两个缓冲区中。</p>
+
+<p>我们从缓冲区所得到的方便性对于缓冲区数组同样有效。因为每一个缓冲区都跟踪自己还可以接受多少数据，所以分散读取会自动找到有空间接受数据的第一个缓冲区。在这个缓冲区填满后，它就会移动到下一个缓冲区。</p>
+
+
+
+<h6 id="简单小例子"><strong>简单小例子</strong></h6>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs">RandomAccessFile raf1=<span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">"d:\\ay.txt"</span>, <span class="hljs-string">"rw"</span>);
+<span class="hljs-comment">//获取通道</span>
+FileChannel channel1 = raf1.getChannel();
+<span class="hljs-comment">//设置缓冲区</span>
+ByteBuffer buf1=ByteBuffer.allocate(<span class="hljs-number">50</span>);
+ByteBuffer buf2=ByteBuffer.allocate(<span class="hljs-number">1024</span>);
+<span class="hljs-comment">//分散读取的时候缓存区应该是有序的，所以把几个缓冲区加入数组中</span>
+ByteBuffer[] bufs={buf1,buf2};
+<span class="hljs-comment">//通道进行传输</span>
+channel1.read(bufs);
+<span class="hljs-comment">//查看缓冲区中的内容</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; bufs.length; i++) {
+   <span class="hljs-comment">//切换为读模式</span>
+   bufs[i].flip();
+}
+System.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">new</span> String(bufs[<span class="hljs-number">0</span>].array(),<span class="hljs-number">0</span>,bufs[<span class="hljs-number">0</span>].limit()));
+System.<span class="hljs-keyword">out</span>.println();
+System.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">new</span> String(bufs[<span class="hljs-number">1</span>].array(),<span class="hljs-number">0</span>,bufs[<span class="hljs-number">1</span>].limit()));
+<span class="hljs-comment">//聚集写入</span>
+RandomAccessFile  raf2=<span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">"d:\\al.txt"</span>, <span class="hljs-string">"rw"</span>);
+FileChannel channel2 = raf2.getChannel();
+<span class="hljs-comment">//只能通过通道来进行写入</span>
+channel2.write(bufs);</code></pre>
+
+
+
+<h5 id="其他通道"><strong>其他通道</strong></h5>
+
+<p>​           </p>
+
+
+
+<h6 id="文件通道"><strong>文件通道</strong></h6>
+
+<p>略</p>
+
+
+
+<h6 id="socket管道"><strong>Socket管道</strong></h6>
+
+<p>Java NIO中的 SocketChannel 是一个连接到 TCP 网络套接字的通道。可以通过以下2种方式创建 SocketChannel：</p>
+
+<ul>
+<li>打开一个SocketChannel并连接到互联网上的某台服务器。</li>
+<li>一个新连接到达 ServerSocketChannel 时，会创建一个 SocketChannel。</li>
+</ul>
+
+<p>打开 SocketChannel</p>
+
+<p>下面是SocketChannel的打开方式：</p>
+
+<pre><code>SocketChannel socketChannel = SocketChannel.open();
+socketChannel.connect(new InetSocketAddress("http://jenkov.com",80));
+</code></pre>
+
+<p>从 SocketChannel 读取数据</p>
+
+<p>要从SocketChannel中读取数据，调用一个read()的方法之一。以下是例子：</p>
+
+<pre><code>ByteBuffer buf = ByteBuffer.allocate(48);
+int bytesRead = socketChannel.read(buf);
+</code></pre>
+
+<p>首先，分配一个Buffer。从SocketChannel读取到的数据将会放到这个Buffer中。</p>
+
+<p>然后，调用SocketChannel.read()。该方法将数据从SocketChannel 读到Buffer中。read()方法返回的int值表示读了多少字节进Buffer里。如果返回的是-1，表示已经读到了流的末尾（连接关闭了）。</p>
+
+<p>写入 SocketChannel</p>
+
+<p>写数据到SocketChannel用的是SocketChannel.write()方法，该方法以一个Buffer作为参数。示例如下：</p>
+
+<pre><code>String newData = "New String to write to file..." + System.currentTimeMillis();
+ByteBuffer buf = ByteBuffer.allocate(48);
+buf.clear();
+buf.put(newData.getBytes());
+buf.flip();
+while(buf.hasRemaining()) {
+    channel.write(buf);
+}
+</code></pre>
+
+<p>注意SocketChannel.write()方法的调用是在一个while循环中的。Write()方法无法保证能写多少字节到SocketChannel。所以，我们重复调用write()直到Buffer没有要写的字节为止。</p>
+
+<p>非阻塞模式</p>
+
+<p>可以设置 SocketChannel 为非阻塞模式（non-blocking mode）.设置之后，就可以在异步模式下调用connect(), read() 和write()了。</p>
+
+<p>connect()</p>
+
+<p>如果SocketChannel在非阻塞模式下，此时调用connect()，该方法可能在连接建立之前就返回了。为了确定连接是否建立，可以调用finishConnect()的方法。像这样：</p>
+
+<pre><code>socketChannel.configureBlocking(false);
+socketChannel.connect(new InetSocketAddress("http://jenkov.com", 80));
+while(! socketChannel.finishConnect() ){
+    //wait, or do something else...
+}
+</code></pre>
+
+<p>write()</p>
+
+<p>非阻塞模式下，write()方法在尚未写出任何内容时可能就返回了。所以需要在循环中调用write()。前面已经有例子了，这里就不赘述了。</p>
+
+<p>read()</p>
+
+<p>非阻塞模式下,read()方法在尚未读取到任何数据时可能就返回了。所以需要关注它的int返回值，它会告诉你读取了多少字节。</p>
+
+<p>不错的小例子</p>
+
+<p>一下是来自网络的一个小例子，个人觉得很不错，就贴到这里。</p>
+
+<pre><code>class NioClient {
+    //管道管理器
+    private Selector selector;
+
+    public NioClient init(String serverIp, int port) throws IOException{
+        //获取socket通道
+        SocketChannel channel = SocketChannel.open();
+
+        channel.configureBlocking(false);
+        //获得通道管理器
+        selector=Selector.open();
+
+        //客户端连接服务器，需要调用channel.finishConnect();才能实际完成连接。
+        channel.connect(new InetSocketAddress(serverIp, port));
+        //为该通道注册SelectionKey.OP_CONNECT事件
+        channel.register(selector, SelectionKey.OP_CONNECT);
+        return this;
+    }
+
+    public void listen() throws IOException{
+        System.out.println("客户端启动");
+        //轮询访问selector
+        while(true){
+            //选择注册过的io操作的事件(第一次为SelectionKey.OP_CONNECT)
+            selector.select();
+            Iterator&lt;SelectionKey&gt; ite = selector.selectedKeys().iterator();
+            while(ite.hasNext()){
+                SelectionKey key = ite.next();
+                //删除已选的key，防止重复处理
+                ite.remove();
+                if(key.isConnectable()){
+                    SocketChannel channel=(SocketChannel)key.channel();
+
+                    //如果正在连接，则完成连接
+                    if(channel.isConnectionPending()){
+                        channel.finishConnect();
+                    }
+
+                    channel.configureBlocking(false);
+                    //向服务器发送消息
+                    channel.write(ByteBuffer.wrap(new String("send message to server.").getBytes()));
+
+                    //连接成功后，注册接收服务器消息的事件
+                    channel.register(selector, SelectionKey.OP_READ);
+                    System.out.println("客户端连接成功");
+                }else if(key.isReadable()){ //有可读数据事件。
+                    SocketChannel channel = (SocketChannel)key.channel();
+
+                    ByteBuffer buffer = ByteBuffer.allocate(10);
+                    channel.read(buffer);
+                    byte[] data = buffer.array();
+                    String message = new String(data);
+
+                    System.out.println("recevie message from server:, size:" + buffer.position() + " msg: " + message);
+//                    ByteBuffer outbuffer = ByteBuffer.wrap(("client.".concat(msg)).getBytes());
+//                    channel.write(outbuffer);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        new NioClient().init("127.0.0.1", 9981).listen();
+    }
+}
+
+
+
+class NioServer {
+    //通道管理器
+    private Selector selector;
+
+    //获取一个ServerSocket通道，并初始化通道
+    public NioServer init(int port) throws IOException{
+        //获取一个ServerSocket通道
+        ServerSocketChannel serverChannel = ServerSocketChannel.open();
+        serverChannel.configureBlocking(false);
+        serverChannel.socket().bind(new InetSocketAddress(port));
+        //获取通道管理器
+        selector=Selector.open();
+        //将通道管理器与通道绑定，并为该通道注册SelectionKey.OP_ACCEPT事件，
+        //只有当该事件到达时，Selector.select()会返回，否则一直阻塞。
+        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+        return this;
+    }
+
+    public void listen() throws IOException{
+        System.out.println("服务器端启动成功");
+
+        //使用轮询访问selector
+        while(true){
+            //当有注册的事件到达时，方法返回，否则阻塞。
+            selector.select();
+
+            //获取selector中的迭代器，选中项为注册的事件
+            Iterator&lt;SelectionKey&gt; ite=selector.selectedKeys().iterator();
+
+            while(ite.hasNext()){
+                SelectionKey key = ite.next();
+                //删除已选key，防止重复处理
+                ite.remove();
+                //客户端请求连接事件
+                if(key.isAcceptable()){
+                    ServerSocketChannel server = (ServerSocketChannel)key.channel();
+                    //获得客户端连接通道
+                    SocketChannel channel = server.accept();
+                    channel.configureBlocking(false);
+                    //向客户端发消息
+                    channel.write(ByteBuffer.wrap(new String("send message to client").getBytes()));
+                    //在与客户端连接成功后，为客户端通道注册SelectionKey.OP_READ事件。
+                    channel.register(selector, SelectionKey.OP_READ);
+
+                    System.out.println("客户端请求连接事件");
+                }else if(key.isReadable()){//有可读数据事件
+                    //获取客户端传输数据可读取消息通道。
+                    SocketChannel channel = (SocketChannel)key.channel();
+                    //创建读取数据缓冲器
+                    ByteBuffer buffer = ByteBuffer.allocate(10);
+                    int read = channel.read(buffer);
+                    byte[] data = buffer.array();
+                    String message = new String(data);
+
+                    System.out.println("receive message from client, size:" + buffer.position() + " msg: " + message);
+//                    ByteBuffer outbuffer = ByteBuffer.wrap(("server.".concat(msg)).getBytes());
+//                    channel.write(outbuffer);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        new NioServer().init(9981).listen();
+    }
+}
+</code></pre>
+
+<h6 id="datagram-通道"><strong>Datagram 通道</strong></h6>
+
+<p>Java NIO中的DatagramChannel是一个能收发UDP包的通道。因为UDP是无连接的网络协议，所以不能像其它通道那样读取和写入。它发送和接收的是数据包。</p>
+
+<p>Datagram 通道就作为大家自学的内容。</p>
+
+<h5 id="管道pipe"><strong>管道（Pipe）</strong></h5>
+
+<p>Java NIO 管道是2个线程之间的单向数据连接。Pipe有一个source通道和一个sink通道。数据会被写到sink通道，从source通道读取。 </p>
+
+
+
+<h6 id="title-1"> </h6>
+
+<p><img src="http://img.blog.csdn.net/20170720222311143?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+<h6 id="创建管道"><strong>创建管道</strong></h6>
+
+<p>通过Pipe.open()方法打开管道。例如： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">Pipe <span class="hljs-keyword">pipe</span> = Pipe.<span class="hljs-keyword">open</span>(); </code></pre>
+
+
+
+<h6 id="向管道写数据"><strong>向管</strong>道写数据</h6>
+
+<p>要向管道写数据，需要访问sink通道。像这样： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">Pipe<span class="hljs-preprocessor">.SinkChannel</span> sinkChannel = pipe<span class="hljs-preprocessor">.sink</span>()<span class="hljs-comment">; </span></code></pre>
+
+<p>通过调用SinkChannel的write()方法，将数据写入SinkChannel,像这样： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">String newData = <span class="hljs-string">"New String to write to file..."</span> + System<span class="hljs-preprocessor">.currentTimeMillis</span>()<span class="hljs-comment">;  </span>
+ByteBuffer buf = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">48</span>)<span class="hljs-comment">;  </span>
+buf<span class="hljs-preprocessor">.clear</span>()<span class="hljs-comment">;  </span>
+buf<span class="hljs-preprocessor">.put</span>(newData<span class="hljs-preprocessor">.getBytes</span>())<span class="hljs-comment">;  </span>
+buf<span class="hljs-preprocessor">.flip</span>()<span class="hljs-comment">;  </span>
+while(buf<span class="hljs-preprocessor">.hasRemaining</span>()) {  
+   &lt;b&gt;sinkChannel<span class="hljs-preprocessor">.write</span>(buf)<span class="hljs-comment">;&lt;/b&gt;  </span>
+} </code></pre>
+
+
+
+<h6 id="从管道读取数据"><strong>从管道读取数据</strong></h6>
+
+<p>从读取管道的数据，需要访问source通道，像这样： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">Pipe<span class="hljs-preprocessor">.SourceChannel</span> sourceChannel = pipe<span class="hljs-preprocessor">.source</span>()<span class="hljs-comment">; </span></code></pre>
+
+<p>调用source通道的read()方法来读取数据，像这样： </p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">ByteBuffer buf = ByteBuffer.allocate(<span class="hljs-number">48</span>);  
+<span class="hljs-keyword">int</span> bytesRead = inChannel.<span class="hljs-keyword">read</span>(buf);  </code></pre>
+
+<p>read()方法返回的int值会告诉我们多少字节被读进了缓冲区。 </p>
+
+
+
+<h6 id="简单完整实例">简单完整实例</h6>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">//获取管道
+Pipe pipe = Pipe<span class="hljs-preprocessor">.open</span>()<span class="hljs-comment">;</span>
+//获取Sink 管道
+Pipe<span class="hljs-preprocessor">.SinkChannel</span> sinkChannel = pipe<span class="hljs-preprocessor">.sink</span>()<span class="hljs-comment">;</span>
+//需要写入数据
+String newData = <span class="hljs-string">"New String to write to file..."</span> + System<span class="hljs-preprocessor">.currentTimeMillis</span>()<span class="hljs-comment">;</span>
+//新建缓存区
+ByteBuffer buf = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">48</span>)<span class="hljs-comment">;</span>
+buf<span class="hljs-preprocessor">.clear</span>()<span class="hljs-comment">;</span>
+//缓存区存放数据
+buf<span class="hljs-preprocessor">.put</span>(newData<span class="hljs-preprocessor">.getBytes</span>())<span class="hljs-comment">;</span>
+buf<span class="hljs-preprocessor">.flip</span>()<span class="hljs-comment">;</span>
+while(buf<span class="hljs-preprocessor">.hasRemaining</span>()) {
+    sinkChannel<span class="hljs-preprocessor">.write</span>(buf)<span class="hljs-comment">;</span>
+}
+//获取Source 管道
+Pipe<span class="hljs-preprocessor">.SourceChannel</span> sourceChannel = pipe<span class="hljs-preprocessor">.source</span>()<span class="hljs-comment">;</span>
+ByteBuffer buf2 = ByteBuffer<span class="hljs-preprocessor">.allocate</span>(<span class="hljs-number">48</span>)<span class="hljs-comment">;</span>
+int bytesRead = sourceChannel<span class="hljs-preprocessor">.read</span>(buf2)<span class="hljs-comment">;</span>
+while (bytesRead != -<span class="hljs-number">1</span>) {
+    System<span class="hljs-preprocessor">.out</span><span class="hljs-preprocessor">.println</span>(<span class="hljs-string">"Read "</span> + bytesRead)<span class="hljs-comment">;</span>
+    //buf<span class="hljs-preprocessor">.flip</span>()的调用，首先读取数据到Buffer，然后反转Buffer,接着再从Buffer中读取数据（注：flip：空翻，反转）
+    buf<span class="hljs-preprocessor">.flip</span>()<span class="hljs-comment">;</span>
+    //判断是否有剩余（注：Remaining：剩余的）
+    while(buf<span class="hljs-preprocessor">.hasRemaining</span>()){
+        System<span class="hljs-preprocessor">.out</span><span class="hljs-preprocessor">.print</span>((char) buf<span class="hljs-preprocessor">.get</span>())<span class="hljs-comment">;</span>
+    }
+    buf<span class="hljs-preprocessor">.clear</span>()<span class="hljs-comment">;</span>
+    bytesRead = sourceChannel<span class="hljs-preprocessor">.read</span>(buf)<span class="hljs-comment">;</span>
+}
+sourceChannel<span class="hljs-preprocessor">.close</span>()<span class="hljs-comment">;</span>
+sinkChannel<span class="hljs-preprocessor">.close</span>()<span class="hljs-comment">;</span></code></pre>
+
+
+
+<h4 id="aio编程">AIO编程</h4>
+
+
+
+<h6 id="aio的特点"><strong>AIO的特点</strong></h6>
+
+<ul>
+<li><p>读完了再通知我</p></li>
+<li><p>不会加快IO，只是在读完后进行通知</p></li>
+<li><p>使用回调函数，进行业务处理</p>
+
+<p>​</p></li>
+</ul>
+
+<p>AIO的相关代码：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs fsharp"><span class="hljs-comment">//AsynchronousServerSocketChannel类</span>
+server = AsynchronousServerSocketChannel.<span class="hljs-keyword">open</span>().bind(<span class="hljs-keyword">new</span> InetSocketAddress(PORT));</code></pre>
+
+<p>使用server上的accept方法</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> &lt;A&gt; <span class="hljs-keyword">void</span> <span class="hljs-title">accept</span>(A attachment,CompletionHandler&lt;AsynchronousSocketChannel,? <span class="hljs-keyword">super</span> A&gt; handler);</code></pre>
+
+<p>CompletionHandler为回调接口，当有客户端accept之后，就做handler中的事情。</p>
+
+
+
+<h6 id="nio与aio区别">NIO与AIO区别</h6>
+
+<ul>
+<li>NIO是同步非阻塞的，AIO是异步非阻塞的</li>
+<li>由于NIO的读写过程依然在应用线程里完成，所以对于那些读写过程时间长的，NIO就不太适合。而AIO的读写过程完成后才被通知，所以AIO能够胜任那些重量级，读写过程长的任务。</li>
+</ul>
+
+<p><strong>结束语</strong></p>
+
+<hr>
+
+
+
+<h3 id="读书感悟"><strong>读书感悟</strong></h3>
+
+<p>来着果戈理《死魂灵》</p>
+
+<ul>
+<li>愉快的谈话胜似一切佳肴美馔。</li>
+<li>一个女人尽管原来在性格上要比男人柔弱无能得多，在有的情况下她却能够突然一下子变得强硬坚定起来，不但胜过男人，而且胜过了世界上所有的一切。</li>
+<li>在一件事情的开初，是不能测度它的全部情状，以及经过的广和深。</li>
+<li>就投机钻营来说，世故的价值永远是无可比拟的。</li>
+</ul>
+
+<hr>
+
+
+
+<h3 id="经典故事"><strong>经典故事</strong></h3>
+
+<p>【一只野狼卧在草上勤奋地磨牙，狐狸看到了，就对它说：天气这么好，大家在休息娱乐，你也加入我们队伍中吧！野狼没有说话，继续磨牙，把它的牙齿磨得又尖又利。狐狸奇怪地问道：森林这么静，猎人和猎狗已经回家了，老虎也不在近处徘徊，又没有任何危险，你何必那么用劲磨牙呢？野狼停下来回答说：我磨牙并不是为了娱乐，你想想，如果有一天我被猎人或老虎追逐，到那时，我想磨牙也来不及了。而平时我就把牙磨好，到那时就可以保护自己了。】</p>
+
+<hr>
+
+
+
+<h3 id="其他"><strong>其他</strong></h3>
+
+<p>如果有带给你一丝丝小快乐，就让快乐继续传递下去，欢迎点赞、顶、欢迎留下宝贵的意见、多谢支持！</p>
+
+<p>参考文章</p>
+
+<p>【1】<a href="http://blog.csdn.net/anxpp/article/details/51512200" target="_blank">http://blog.csdn.net/anxpp/article/details/51512200</a> <br>
+【2】<a href="http://www.iteye.com/magazines/132-Java-NIO" target="_blank">http://www.iteye.com/magazines/132-Java-NIO</a> <br>
+【3】<a href="http://www.jb51.net/article/92448.htm" target="_blank">http://www.jb51.net/article/92448.htm</a> <br>
+【4】<a href="http://www.cnblogs.com/good-temper/p/5003892.html" target="_blank">http://www.cnblogs.com/good-temper/p/5003892.html</a> <br>
+【5】<a href="http://www.cnblogs.com/fanzhidongyzby/p/4098546.htm" target="_blank">http://www.cnblogs.com/fanzhidongyzby/p/4098546.htm</a> <br>
+【6】<a href="https://www.ibm.com/developerworks/cn/java/l-niosvr/" target="_blank">https://www.ibm.com/developerworks/cn/java/l-niosvr/</a> <br>
+【7】Netty权威指南 <br>
+【8】<a href="http://ifeve.com/selectors/" target="_blank">http://ifeve.com/selectors/</a> <br>
+【9】<a href="http://ifeve.com/socket-channel/" target="_blank">http://ifeve.com/socket-channel/</a></p></div>
+        <script  type="text/javascript">
+            $(function () {
+                $('pre.prettyprint code').each(function () {
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for (i = 1; i <= lines; i++) {
+                        $numbering.append($('<li/>').text(i));
+                    };
+                    $numbering.fadeIn(1700);
+                });
+            });
+        </script>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.12-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="75577091" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>13</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>9</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/huangwenyi1010/article/details/74999823';">上一篇</span><a href="http://blog.csdn.net/huangwenyi1010/article/details/74999823" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">我录制的《Java之IO , BIO , NIO , AIO 知多少？》视频教程发布了</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/huangwenyi1010/article/details/76359275';">下一篇</span><a href="http://blog.csdn.net/huangwenyi1010/article/details/76359275" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">Spring Boot整合其它技术详细总结</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36" >                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/blogdevteam/article/details/74550215" title="【获奖公布】征文 | 你会为 AI 转型么？" strategy="BlogCommendFromBaidu" target="_blank">【获奖公布】征文 | 你会为 AI 转型么？</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/xiuxian4728/article/details/76704159" title="Machine Learning in action –kNN" strategy="BlogCommendFromBaidu" target="_blank">Machine Learning in action –kNN</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/xcymorningsun/article/details/53019425" title="表单和ajax中的post请求&amp;&amp;后台获取数据方法（深度好文）" strategy="BlogCommendFromBaidu" target="_blank">表单和ajax中的post请求&amp;&amp;后台获取数据方法（深度好文）</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zqixiao_09/article/details/53401818" title="route命令详解与使用实例" strategy="BlogCommendFromBaidu" target="_blank">route命令详解与使用实例</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/Hallelujah520/article/details/76597862" title="hdu 1695 莫比乌斯基础题" strategy="BlogCommendFromBaidu" target="_blank">hdu 1695 莫比乌斯基础题</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/amon1991/article/details/76774880" title="Spring-Boot + Swagger2 自动生成API接口文档" strategy="BlogCommendFromBaidu" target="_blank">Spring-Boot + Swagger2 自动生成API接口文档</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zqixiao_09/article/details/50926494" title="Exynos4412 IIC 总线驱动开发相关问题总结" strategy="BlogCommendFromBaidu" target="_blank">Exynos4412 IIC 总线驱动开发相关问题总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/qq_14950717/article/details/76686332" title="kafka各版本差异" strategy="BlogCommendFromBaidu" target="_blank">kafka各版本差异</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/qq_15370821/article/details/76735801" title="启动dubbo报错解决：java.lang.RuntimeException: java.io.IOException: invalid constant type: 15" strategy="BlogCommendFromBaidu" target="_blank">启动dubbo报错解决：java.lang.RuntimeException: java.io.IOException: invalid constant type: 15</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/singwhatiwanna/article/details/75675746" title="关于 Android 程序员最近的状况" strategy="BlogCommendFromBaidu" target="_blank">关于 Android 程序员最近的状况</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/huangwenyi1010/svc/GetSuggestContent/75577091",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+        <dl class="blog-ass-articl tracking-ad" id="res-relatived" data-mod="popu_84"  > 
+             <dt><span>猜你在找</span></dt>    
+           
+    
+           
+
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/54?utm_source=blog7" title="【直播】机器学习&amp;数据挖掘7周实训--韦玮" strategy="undefined" target="_blank">【直播】机器学习&amp;数据挖掘7周实训--韦玮</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/combo/detail/471?utm_source=blog7" title="【套餐】系统集成项目管理工程师顺利通关--徐朋" strategy="undefined" target="_blank">【套餐】系统集成项目管理工程师顺利通关--徐朋</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/55?utm_source=blog7" title="【直播】3小时掌握Docker最佳实战-徐西宁" strategy="undefined" target="_blank">【直播】3小时掌握Docker最佳实战-徐西宁</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/combo/detail/505?utm_source=blog7" title="【套餐】机器学习系列套餐（算法+实战）--唐宇迪" strategy="undefined" target="_blank">【套餐】机器学习系列套餐（算法+实战）--唐宇迪</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/52?utm_source=blog7" title="【直播】计算机视觉原理及实战--屈教授" strategy="undefined" target="_blank">【直播】计算机视觉原理及实战--屈教授</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/combo/detail/178?utm_source=blog7" title="【套餐】微信订阅号+服务号Java版 v2.0--翟东平" strategy="undefined" target="_blank">【套餐】微信订阅号+服务号Java版 v2.0--翟东平</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/47?utm_source=blog7" title="【直播】机器学习之矩阵--黄博士" strategy="undefined" target="_blank">【直播】机器学习之矩阵--黄博士</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/combo/detail/178?utm_source=blog7" title="【套餐】微信订阅号+服务号Java版 v2.0--翟东平" strategy="undefined" target="_blank">【套餐】微信订阅号+服务号Java版 v2.0--翟东平</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/48?utm_source=blog7" title="【直播】机器学习之凸优化--马博士" strategy="undefined" target="_blank">【直播】机器学习之凸优化--马博士</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/combo/detail/484?utm_source=blog7" title="【套餐】Javascript 设计模式实战--曾亮" strategy="undefined" target="_blank">【套餐】Javascript 设计模式实战--曾亮</a>
+                        </dd>
+
+                  
+              
+                 
+        </dl>
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '75577091';
+    var commentscount = 12;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Java之IO,BIO,NIO,AIO知多少？';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/huangwenyi1010" target="_blank">
+    <img src="http://avatar.csdn.net/E/9/6/1_huangwenyi1010.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/huangwenyi1010" class="user_name" target="_blank">huangwenyi1010</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=huangwenyi1010','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert"  onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png') no-repeat" ></div>
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="4" >
+                                            </a>
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="4" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>261979次</span></li>
+    <li>积分：<span>4270</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog5.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：4270 </div>
+        </span>  </li>
+    <li>排名：<span>第7058名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>184篇</span></li>
+    <li>转载：<span>0篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>245条</span></li>
+</ul>
+</ul>
+</div>
+
+
+
+
+<div id="custom_column_41550259" class="panel">
+<ul class="panel_head"><span>个人信息</span></ul>
+<ul class="panel_body">
+<div align="center"><img src="http://img.blog.csdn.net/20170729232347174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHVhbmd3ZW55aTEwMTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" height="210" width="170"></div><br>
+<div align="center"><font size="3" color="#CE0000"><b>你的鼓励，我的动力</b></font></div><br>
+<a href="http://edu.csdn.net/lecturer/994"><b>姓名</b>：阿毅<br>
+<hr>
+<b>城市</b>：厦门 <br>
+<hr>
+<b>QQ</b>：649271302<br>
+<hr>
+<b>简书账号 : 阿_毅</b><br>
+<hr>
+<b>微信号</b>：huangwenyi2010<br>
+<hr>
+<b>邮箱</b>： huangwenyi10@163.com<br>
+<hr> 
+<b>视频</b>:http://edu.csdn.net/lecturer/994<br>
+<b>
+</b></a>
+<br><b></b>
+</ul>
+</div><div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13197.html" target="_blank"><img src="http://img.blog.csdn.net/20161014195953957" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13197.html" target="_blank">一步一步学Java</a>
+    <p>文章：7篇</p>
+    <span>阅读：10666</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13119.html" target="_blank"><img src="http://img.blog.csdn.net/20161008231703228" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13119.html" target="_blank">一步一步学Linux</a>
+    <p>文章：7篇</p>
+    <span>阅读：3436</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13095.html" target="_blank"><img src="http://img.blog.csdn.net/20160930213730764" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13095.html" target="_blank">一步一步学Redis</a>
+    <p>文章：5篇</p>
+    <span>阅读：11023</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13069.html" target="_blank"><img src="http://img.blog.csdn.net/20160930175033098" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13069.html" target="_blank">一步一步学POI</a>
+    <p>文章：14篇</p>
+    <span>阅读：11591</span>
+    </td>
+    </tr></table>
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/youyabiancheng.html" target="_blank"><img src="http://img.blog.csdn.net/20160715143428058" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/youyabiancheng.html" target="_blank">优雅编程系列</a>
+    <p>文章：40篇</p>
+    <span>阅读：29101</span>
+    </td>
+    </tr></table>
+    </ul>
+</div><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6106306" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Java</a><span>(41)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6106307" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Hibernate</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6106308" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Spring</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6106309" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学JavaScript</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6109565" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Ember</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6109566" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Linux</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6152812" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学HTML5+CSS3</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6184747" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学POI</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6192028" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学PostgreSQL</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6198129" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Tomcat</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6199220" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Redis</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6201801" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Maven</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6204117" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学MyBatis</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6207614" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Websocket</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6210807" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Servlet</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6211233" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学JDBC</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6215876" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Jquery</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6217825" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学IDEA</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6218098" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Quartz</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6245933" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步解面试题</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6249428" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学算法</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6266927" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学UEditor</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6296755" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步提高效率</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6301554" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学优雅编程</a><span>(42)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6346755" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学开源工具包</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6464927" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Docker</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6476194" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学大数据</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6526456" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学故事编程</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6716846" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学SpringBoot</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6735006" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步写优雅编程之道</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6783293" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Axure</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6806212" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学性能优化</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6816453" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步聊人生</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6891937" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Jpush</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6916991" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Freemarker</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6917378" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学UML</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/huangwenyi1010/article/category/6944610" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">一步一步学Node</a><span>(1)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/huangwenyi1010/article/month/2017/08">2017年08月</a><span>(1)</span></li><li><a href="/huangwenyi1010/article/month/2017/07">2017年07月</a><span>(3)</span></li><li><a href="/huangwenyi1010/article/month/2017/06">2017年06月</a><span>(7)</span></li><li><a href="/huangwenyi1010/article/month/2017/05">2017年05月</a><span>(9)</span></li><li><a href="/huangwenyi1010/article/month/2017/04">2017年04月</a><span>(4)</span></li><li><a href="/huangwenyi1010/article/month/2017/03">2017年03月</a><span>(10)</span></li><li><a href="/huangwenyi1010/article/month/2017/02">2017年02月</a><span>(6)</span></li><li><a href="/huangwenyi1010/article/month/2017/01">2017年01月</a><span>(6)</span></li><li><a href="/huangwenyi1010/article/month/2016/12">2016年12月</a><span>(7)</span></li><li><a href="/huangwenyi1010/article/month/2016/11">2016年11月</a><span>(7)</span></li><li><a href="/huangwenyi1010/article/month/2016/10">2016年10月</a><span>(14)</span></li><li><a href="/huangwenyi1010/article/month/2016/09">2016年09月</a><span>(14)</span></li><li><a href="/huangwenyi1010/article/month/2016/08">2016年08月</a><span>(11)</span></li><li><a href="/huangwenyi1010/article/month/2016/07">2016年07月</a><span>(15)</span></li><li><a href="/huangwenyi1010/article/month/2016/06">2016年06月</a><span>(13)</span></li><li><a href="/huangwenyi1010/article/month/2016/05">2016年05月</a><span>(21)</span></li><li><a href="/huangwenyi1010/article/month/2016/04">2016年04月</a><span>(24)</span></li><li><a href="/huangwenyi1010/article/month/2016/03">2016年03月</a><span>(3)</span></li><li><a href="/huangwenyi1010/article/month/2016/02">2016年02月</a><span>(9)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/huangwenyi1010/article/details/51637427" title="UEditor之实现配置简单的图片上传示例">UEditor之实现配置简单的图片上传示例</a><span>(38371)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51638123" title="UEditor之图片上传如何和真实项目结合">UEditor之图片上传如何和真实项目结合</a><span>(24933)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51637439" title="UEditor之基于Java图片上传前后端源码研究">UEditor之基于Java图片上传前后端源码研究</a><span>(9601)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51333527" title="JavaScript之实现基本的增删改查功能">JavaScript之实现基本的增删改查功能</a><span>(9309)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51354188" title="Redis之五种数据类型的简单增删改查">Redis之五种数据类型的简单增删改查</a><span>(7603)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51476515" title="Java之流水号生成器">Java之流水号生成器</a><span>(5318)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51581906" title="Java之业务异常类BusinessException封装实例">Java之业务异常类BusinessException封装实例</a><span>(5236)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/53959078" title="优雅编程之阿里巴巴开发规范分享及扩展学习（三十八）">优雅编程之阿里巴巴开发规范分享及扩展学习（三十八）</a><span>(4764)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51338272" title="Quartz之手动启动和关闭定时器简单示例">Quartz之手动启动和关闭定时器简单示例</a><span>(4594)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/53873457" title="Java之嵌套接口和嵌套类了解和简单实例">Java之嵌套接口和嵌套类了解和简单实例</a><span>(4190)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/huangwenyi1010/article/details/51638123" title="UEditor之图片上传如何和真实项目结合">UEditor之图片上传如何和真实项目结合</a><span>(47)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/72673447" title="15天的性能优化工作，5方面的调优经验">15天的性能优化工作，5方面的调优经验</a><span>(26)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/65921356" title="关于IT公司 &quot;工资浮夸风&quot; 的几点反思">关于IT公司 &quot;工资浮夸风&quot; 的几点反思</a><span>(19)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/51637427" title="UEditor之实现配置简单的图片上传示例">UEditor之实现配置简单的图片上传示例</a><span>(17)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/54645131" title="冒泡排序实现与性能优化及JDK排序类分享">冒泡排序实现与性能优化及JDK排序类分享</a><span>(13)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/75577091" title="Java之IO,BIO,NIO,AIO知多少？">Java之IO,BIO,NIO,AIO知多少？</a><span>(12)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/53890837" title="优雅编程之项目开发中的22点编码小建议（三十七）">优雅编程之项目开发中的22点编码小建议（三十七）</a><span>(12)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/54301843" title="Java之Redis队列+Websocket+定时器实现跑马灯实时刷新">Java之Redis队列+Websocket+定时器实现跑马灯实时刷新</a><span>(6)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/58636581" title="【优雅编程之道】之字符串的5点建议">【优雅编程之道】之字符串的5点建议</a><span>(6)</span>
+</li>
+<li>
+<a href="/huangwenyi1010/article/details/53959078" title="优雅编程之阿里巴巴开发规范分享及扩展学习（三十八）">优雅编程之阿里巴巴开发规范分享及扩展学习（三十八）</a><span>(6)</span>
+</li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+      <!--new top-->
+    
+
+     
+
+   
+   
+     <!--new top-->
+   
+   
+
+    
+    
+    
+   
+
+   
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+          <script type="text/javascript">
+              //$(function () {
+              //    setTimeout(function () {
+              //        var searchtitletags = articletitle + ',' + $("#tags").html();
+              //        searchService({
+              //            index: 'blog',
+              //            query: searchtitletags,
+              //            from: 5,
+              //            size: 5,
+              //            appendTo: '#res',
+              //            url: 'recommend',
+              //            his: 2,
+              //            client: "blog_cf_enhance",
+              //            tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+              //        });
+              //    }, 1000);
+              //});
+
+         </script>
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=5614313"></script>
+
+     
+    
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    
+    
+        
+     
+
+    
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+
+</body>
+</html>   
