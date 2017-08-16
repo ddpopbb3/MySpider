@@ -74,19 +74,17 @@ public class RecursionService {
 					results = document.getElementsByTag("body");
 			}
 			
-			for(Element result:results){
-				
-				Elements links = result.getElementsByTag("a");
+			for(Element result:results){					
+				Elements links = result.getElementsByTag("p");
 				if(links!=null)
 				for(Element link :links){
 					// 将href统一处理成小写
-					String linkhref = link.attr("href");
-					
+					String linkcontent = link.attr("content");
 					String linktext = link.text();
 					
 					//获取解析后的href和text
 					LinkTypeData data = new LinkTypeData();
-					data.setHref(linkhref);
+					data.setContent(linkcontent);
 					data.setText(linktext);
 					list.add(data);
 				}

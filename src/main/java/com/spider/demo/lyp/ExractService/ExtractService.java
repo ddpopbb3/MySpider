@@ -15,8 +15,10 @@ import com.spider.demo.lyp.Rule.Rule;
 import com.spider.demo.lyp.RuleException.RuleException;
 import com.spider.demo.lyp.Util.TextUtil;
 
+
+/**
+ * 这个类用来解析html中符合条件的a标签，并且记录href的属性值*/
 public class ExtractService {
-	
 
 	public List<LinkTypeData> extract(Rule rule) {
 		
@@ -79,7 +81,7 @@ public class ExtractService {
 			
 			for(Element result:results){
 				
-				Elements links = result.getElementsByTag("meta");
+				Elements links = result.getElementsByTag("a");
 				if(links!=null)
 				for(Element link :links){
 					// 将href统一处理成小写
@@ -91,7 +93,10 @@ public class ExtractService {
 					data.setHref(linkhref);
 					data.setContent(linkcontent);
 					data.setText(linktext);
-					list.add(data);
+					if (!data.getHref().isEmpty()||!list.contains(data)) {
+						list.add(data);
+					}
+					
 				}
 			}
 		} catch (IOException e) {

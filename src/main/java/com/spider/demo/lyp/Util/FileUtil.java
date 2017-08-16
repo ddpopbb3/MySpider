@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileTxt {
+public class FileUtil {
 	public  void FileWritterUtil(File file,String content) {
 		
 		try {
