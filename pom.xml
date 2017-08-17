@@ -9,9 +9,11 @@
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
+					<artifactId>maven-jar-plugin</artifactId>
 					<configuration>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<archive>
+							<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+						</archive>
 					</configuration>
 				</plugin>
 			</plugins>
