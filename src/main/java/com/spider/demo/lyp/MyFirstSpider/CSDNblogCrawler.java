@@ -33,15 +33,16 @@ public class CSDNblogCrawler {
 		} else {
 			this.setDownloaddir(downloaddir + "\\" + page + "\\");
 		}
-
 	}
 
 	public void startCopy() throws InterruptedException {
 
+		// 如果文件目录不存在就创建
 		File file = new File(downloaddir);
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdir();
 		}
+		
 		Rule rule = new Rule(new String[] {}, new String[] {}, "http://blog.csdn.net/?&page=" + page,
 				"[data-mod=popu_254]", Rule.SELECTION, Rule.GET);
 		List<LinkTypeData> linklist = doParse(rule);
