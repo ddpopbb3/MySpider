@@ -7,14 +7,14 @@
 更新了pom文件 
 还有目录树（再次感谢九日同学）
 <table>
-*├── pom.xml
-*├── README.md
-*├── src
-*│   ├── it
-*│   │   ├── settings.xml
-*│   │   └── simple-it
-*│   │       ├── pom.xml
-*│   │       └── verify.groovy
+* ├── pom.xml
+* ├── README.md
+* ├── src
+* │   ├── it
+* │   │   ├── settings.xml
+* │   │   └── simple-it
+* │   │       ├── pom.xml
+* │   │       └── verify.groovy
 *│   └── main
 *│       └── java
 *│           └── com
