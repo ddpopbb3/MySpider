@@ -4,7 +4,8 @@ import com.spider.demo.lyp.MyFirstSpider.CSDNblogCrawler;
 
 public class Main {
 	public static void main(String[] args) {
-		String dir = "G:\\testforcrawl";
+		// 通过main函数传参
+		String dir = args[0];
 		// 下载热门博客前20页的内容
 		for (int i = 1; i <= 20; i++) {
 			try {

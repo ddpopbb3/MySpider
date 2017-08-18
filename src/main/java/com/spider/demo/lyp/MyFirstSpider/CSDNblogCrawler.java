@@ -38,10 +38,7 @@ public class CSDNblogCrawler {
 	public void startCopy() throws InterruptedException {
 
 		// 如果文件目录不存在就创建
-		File file = new File(downloaddir);
-		if (!file.exists() && !file.isDirectory()) {
-			file.mkdir();
-		}
+		mkDir(new File(downloaddir));
 		
 		Rule rule = new Rule(new String[] {}, new String[] {}, "http://blog.csdn.net/?&page=" + page,
 				"[data-mod=popu_254]", Rule.SELECTION, Rule.GET);
@@ -69,4 +66,13 @@ public class CSDNblogCrawler {
 		}
 		return list;
 	}
+	
+	  public static void mkDir(File file) {  
+	        if (file.getParentFile().exists()) {  
+	            file.mkdir();  
+	        } else {  
+	            mkDir(file.getParentFile());  
+	            file.mkdir();    
+	        }  
+	    } 
 }
