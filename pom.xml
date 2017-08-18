@@ -20,15 +20,12 @@
 					<artifactId>maven-dependency-plugin</artifactId>
 					<executions>
 						<execution>
-							<id>copy</id>
-							<phase>install</phase>
+							<id>copy-dependencies</id>
+							<phase>package</phase>
 							<goals>
 								<goal>copy-dependencies</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>
-									${project.build.directory}/lib
-								</outputDirectory>
 							</configuration>
 						</execution>
 					</executions>
@@ -41,12 +38,18 @@
 						<archive>
 							<manifest>
 								<addClasspath>true</addClasspath>
-								<classpathPrefix>lib/</classpathPrefix>
+								<classpathPrefix>lib</classpathPrefix>
 								<mainClass>com.spider.demo.lyp.main.Main</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
 				</plugin>
+				<!-- <plugin> <artifactId>maven-assembly-plugin</artifactId> <configuration> 
+					<archive> <manifest> <mainClass>com.spider.demo.lyp.main.Main</mainClass> 
+					</manifest> </archive> <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
+					</descriptorRefs> </configuration> <executions> <execution> <id>make-assembly</id> 
+					<phase>package</phase> <goals> <goal>single</goal> </goals> </execution> 
+					</executions> </plugin> -->
 			</plugins>
 		</pluginManagement>
 	</build>
